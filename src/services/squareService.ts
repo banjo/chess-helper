@@ -1,3 +1,4 @@
+import { configService } from "./configService";
 import { chessTypes } from "./../models/chessTypes";
 import { Config, MetaData } from "./../types";
 import { ChessMove, chessMoves } from "./../models/chessMoves";
@@ -12,16 +13,35 @@ const clearSquare = (board: Element) => {
     }
 };
 
-const isLocatedOnAnotherPiece = (square: number, start: number) => {
-    if (square === start) return false;
+const getCurrentLocationPieceInfo = (square: number, start: number) => {
+    if (square === start) return null;
 
+    const startSquare = document.querySelector(`.square-${start}`);
     const current = document.querySelector(`.square-${square}`);
+    const isBlackPiecePlaying = startSquare?.classList[1]?.startsWith("b");
 
     const isOnPiece = (current: Element) => {
         return current?.classList[0] === "piece";
     };
 
-    return isOnPiece(current);
+    console.log(
+        isOnPiece(current),
+        square,
+        document.querySelector(`.square-${square}`)
+    );
+
+    const isStandingOnWhitePiece = (current: Element) => {
+        return current?.classList[1].startsWith("w");
+    };
+
+    const isOnEnemy =
+        (isBlackPiecePlaying && isStandingOnWhitePiece(current)) ||
+        (!isBlackPiecePlaying && !isStandingOnWhitePiece(current));
+
+    return {
+        isOnPiece: isOnPiece(current),
+        isOnEnemyPiece: isOnPiece(current) ? isOnEnemy : false,
+    };
 };
 
 const isLocatedOnEndOfBoard = (square: number) => {
@@ -106,7 +126,7 @@ const getMetaDataForSquare = (target): MetaData | null => {
 export const squareService = {
     clearSquare,
     isOutsideOfBoard,
-    isLocatedOnAnotherPiece,
+    getCurrentLocationPieceInfo,
     isLocatedOnEndOfBoard,
     getPossibleMoveSquares,
     getMetaDataForSquare,

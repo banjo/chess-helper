@@ -5,11 +5,17 @@ const createElement = ({
     type: string;
     classes: string[];
 }) => {
-    const element = document.createElement("div");
+    const element = document.createElement(type);
 
     classes.forEach((c) => element.classList.add(c));
 
     return element;
 };
 
-export const domService = { createElement };
+const getBoard = (): Element | null => {
+    const board = document.querySelector("#board-board");
+    if (board === null) return;
+
+    return board;
+};
+export const domService = { createElement, getBoard };

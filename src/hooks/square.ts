@@ -12,6 +12,7 @@ export type SquareObject = {
     increaseLast: () => SquareObject | null;
     decreaseLast: () => SquareObject | null;
     isOnPiece: () => boolean;
+    isOnEnemyPiece: () => boolean;
     isOnEndOfBoard: () => boolean;
     isOutsideBoard: () => boolean;
     getSquare: () => SquareObject;
@@ -29,12 +30,22 @@ export const Square: SquareHook = (
     startSquare = startSquare ?? Number(square);
     let current = Number(square);
     let isOnPiece = false;
+    let isOnEnemyPiece = false;
     let isOnEndOfBoard = false;
     let isOutsideBoard = false;
 
     const validate = () => {
-        if (squareService.isLocatedOnAnotherPiece(current, startSquare)) {
-            isOnPiece = true;
+        const info = squareService.getCurrentLocationPieceInfo(
+            current,
+            startSquare
+        );
+
+        if (info) {
+            isOnPiece = info.isOnPiece;
+            isOnEnemyPiece = info.isOnEnemyPiece;
+        } else {
+            isOnPiece = false;
+            isOnEnemyPiece = false;
         }
 
         if (squareService.isLocatedOnEndOfBoard(current)) {
@@ -85,6 +96,7 @@ export const Square: SquareHook = (
         increaseLast,
         decreaseLast,
         isOnPiece: () => isOnPiece,
+        isOnEnemyPiece: () => isOnEnemyPiece,
         isOnEndOfBoard: () => isOnEndOfBoard,
         isOutsideBoard: () => isOutsideBoard,
         getSquare: () => Square(current, startSquare),

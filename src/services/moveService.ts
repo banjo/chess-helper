@@ -97,13 +97,8 @@ const prepareNMoves = (
                 break;
             }
 
-            console.log({
-                isOnPiece: square.isOnPiece(),
-                isOutsideBoard: square.isOutsideBoard(),
-                isOnEndSquare: square.isOnEndOfBoard(),
-            });
-
             if (square.isOnPiece()) {
+                console.log("is on piece", square.getCurrent());
                 moves.push(square.getSquare());
                 break;
             }

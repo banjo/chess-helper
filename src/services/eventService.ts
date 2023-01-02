@@ -4,14 +4,17 @@ import { domService } from "./domService";
 import { chessMoves } from "./../models/chessMoves";
 import { squareService } from "./squareService";
 
-const addLeftClickEvent = (board: Element) => {
+const addLeftClickEvent = () => {
+    const board = domService.getBoard();
     board.addEventListener("click", (e) => {
         squareService.clearSquare(board);
         moveService.clearMoves();
     });
 };
 
-const addRightClickEvent = (board: Element, config: Config) => {
+const addRightClickEvent = (config: Config) => {
+    const board = domService.getBoard();
+
     board.addEventListener("contextmenu", (e) => {
         const target = e.target;
         const metaData = squareService.getMetaDataForSquare(target);
@@ -29,12 +32,23 @@ const addRightClickEvent = (board: Element, config: Config) => {
         );
 
         possibleMoves.forEach((square) => {
+            const classes = [
+                "hint",
+                `square-${square.getCurrent()}`,
+                "doRemove",
+            ];
+
+            if (square.isOnEnemyPiece()) classes.push("enemy");
+
             const element = domService.createElement({
                 type: "div",
-                classes: ["hint", `square-${square.getCurrent()}`, "doRemove"],
+                classes,
             });
 
-            element.style.backgroundColor = "darkgray";
+            element.style.backgroundColor = square.isOnEnemyPiece()
+                ? "red"
+                : "darkgray";
+
             element.style.opacity = "0.5";
             board?.appendChild(element);
         });
