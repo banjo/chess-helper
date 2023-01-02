@@ -84,65 +84,35 @@ const prepareNMoves = (
         return moves;
     }
 
-    // const xIsInfinite = move.x === "n";
-    // const square = Square(metaData.square);
+    const handleVertical = move.y === "n";
+    const square = Square(metaData.square);
 
-    // const AMOUNT_OF_MOVES = 2;
-    // const allMoves = (square: SquareObject) => {
-    //     const allMoves = [
-    //         () => square.increaseFirst(),
-    //         () => square.increaseLast(),
-    //     ];
-    //     return allMoves;
-    // };
+    let tempSquare = square.getSquare();
 
-    // for (let i = 1; i <= AMOUNT_OF_MOVES; i++) {
-    //     let tempSquare = square.getSquare();
-    //     const moves = allMoves(tempSquare);
-    //     console.log(i, moves);
+    const handleSquare = (square: SquareObject, callback) => {
+        while (true) {
+            square = callback(square);
 
-    //     while (true) {
-    //         console.log(moves);
-    //         const callback = moves[i];
-    //         tempSquare = callback();
+            if (square?.isOutsideBoard() || square === null) {
+                break;
+            }
 
-    //         if (tempSquare?.isOutsideBoard() || tempSquare === null) {
-    //             console.log("outside board");
-    //             break;
-    //         }
+            if (square.isOnPiece()) {
+                moves.push(square.getSquare());
+                break;
+            }
 
-    //         if (tempSquare.isOnPiece()) {
-    //             console.log("is on another piece");
-    //             moves.push(tempSquare.getSquare());
-    //             break;
-    //         }
+            moves.push(square.getSquare());
+        }
+    };
 
-    //         moves.push(tempSquare.getSquare());
-    //     }
-    // }
-
-    // movesToDo.forEach((callback) => {
-    //     let tempSquare = square.getSquare();
-
-    //     while (true) {
-    //         tempSquare = callback();
-    //         console.log(tempSquare?.getCurrent());
-    //         console.log("square:", square?.getCurrent());
-
-    //         if (tempSquare?.isOutsideBoard() || tempSquare === null) {
-    //             console.log("outside board");
-    //             break;
-    //         }
-
-    //         if (tempSquare.isOnPiece()) {
-    //             console.log("is on another piece");
-    //             moves.push(tempSquare.getSquare());
-    //             break;
-    //         }
-
-    //         moves.push(tempSquare.getSquare());
-    //     }
-    // });
+    if (handleVertical) {
+        handleSquare(tempSquare, (square) => square.increaseLast());
+        handleSquare(tempSquare, (square) => square.decreaseLast());
+    } else {
+        handleSquare(tempSquare, (square) => square.increaseFirst());
+        handleSquare(tempSquare, (square) => square.decreaseFirst());
+    }
 
     return moves;
 };
