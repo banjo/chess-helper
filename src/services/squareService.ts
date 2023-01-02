@@ -2,6 +2,7 @@ import { chessTypes } from "./../models/chessTypes";
 import { Config, MetaData } from "./../types";
 import { ChessMove, chessMoves } from "./../models/chessMoves";
 import { moveService } from "./moveService";
+import { SquareObject } from "../hooks/square";
 let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const clearSquare = (board: Element) => {
@@ -12,7 +13,9 @@ const clearSquare = (board: Element) => {
     }
 };
 
-const isLocatedOnAnotherPiece = (square: number) => {
+const isLocatedOnAnotherPiece = (square: number, start: number) => {
+    if (square === start) return false;
+
     const current = document.querySelector(`.square-${square}`);
 
     const isOnPiece = (current: Element) => {
@@ -22,15 +25,26 @@ const isLocatedOnAnotherPiece = (square: number) => {
     return isOnPiece(current);
 };
 
-const validateSquare = (square: string | number) => {
-    let squareAsNumber = Number(square);
-    let squareAsString = squareAsNumber.toString();
-    if (Number(squareAsString[0]) > 8 || Number(squareAsString[0]) < 1)
-        return false;
-    if (Number(squareAsString[1]) > 8 || Number(squareAsString[1]) < 1)
-        return false;
+const isLocatedOnEndOfBoard = (square: number) => {
+    const first = Number(String(square).charAt(0));
+    const last = Number(String(square).charAt(1));
 
-    return true;
+    if (first === 8 || first === 1) return true;
+    if (last === 8 || last === 1) return true;
+
+    return false;
+};
+
+const isOutsideOfBoard = (square: number) => {
+    const first = Number(String(square).charAt(0));
+    const last = Number(String(square).charAt(1));
+
+    if (!first || !last) return true;
+
+    if (first > 8 || first < 1) return true;
+    if (last > 8 || last < 1) return true;
+
+    return false;
 };
 
 const getPossibleMoveSquares = (
@@ -39,21 +53,26 @@ const getPossibleMoveSquares = (
     config: Config
 ) => {
     for (const move of moves) {
-        let moves;
+        let moves: SquareObject[];
         switch (metaData.type) {
             case "pawn":
-                moves = moveService.preparePawnMove(move, metaData, config);
+                const pawnMove = moveService.preparePawnMove(
+                    move,
+                    metaData,
+                    config
+                );
+                moves = [pawnMove];
                 break;
             case "rook":
                 moves = moveService.prepareNMoves(move, metaData, config);
                 break;
-            case "bishop":
-                moves = moveService.prepareN1Moves(move, metaData, config);
-                break;
-            case "queen":
-                const nMoves = moveService.prepareNMoves(move, metaData, config);
-                const n1Moves = moveService.prepareN1Moves(move, metaData, config);
-                moves = [...nMoves, ...n1Moves];
+            // case "bishop":
+            //     moves = moveService.prepareN1Moves(move, metaData, config);
+            //     break;
+            // case "queen":
+            //     const nMoves = moveService.prepareNMoves(move, metaData, config);
+            //     const n1Moves = moveService.prepareN1Moves(move, metaData, config);
+            //     moves = [...nMoves, ...n1Moves];
 
             default:
                 console.log("Not implemented yet");
@@ -87,8 +106,9 @@ const getMetaDataForSquare = (target): MetaData | null => {
 
 export const squareService = {
     clearSquare,
-    validateSquare,
+    isOutsideOfBoard,
     isLocatedOnAnotherPiece,
+    isLocatedOnEndOfBoard,
     getPossibleMoveSquares,
     getMetaDataForSquare,
 };

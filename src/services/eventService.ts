@@ -26,10 +26,10 @@ const addRightClickEvent = (board: Element, config: Config) => {
             config
         );
 
-        possibleMoves.forEach((m) => {
+        possibleMoves.forEach((square) => {
             const element = domService.createElement({
                 type: "div",
-                classes: ["hint", `square-${m}`, "doRemove"],
+                classes: ["hint", `square-${square.getCurrent()}`, "doRemove"],
             });
 
             element.style.backgroundColor = "darkgray";
