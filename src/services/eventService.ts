@@ -1,3 +1,4 @@
+import { Config } from "./../types";
 import { domService } from "./domService";
 import { chessMoves } from "./../models/chessMoves";
 import { squareService } from "./squareService";
@@ -8,14 +9,18 @@ const addLeftClickEvent = (board: Element) => {
     });
 };
 
-const addRightClickEvent = (board: Element, config) => {
+const addRightClickEvent = (board: Element, config: Config) => {
     board.addEventListener("contextmenu", (e) => {
         const target = e.target;
         const metaData = squareService.getMetaDataForSquare(target);
 
+        console.log(metaData);
+
         if (metaData === null) return;
 
         const moves = chessMoves[metaData.type];
+
+        console.log(moves);
 
         const possibleMoves = squareService.getPossibleMoveSquares(
             moves,

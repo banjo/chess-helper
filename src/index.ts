@@ -1,11 +1,12 @@
 import { eventService } from "./services/eventService";
 import { configService } from "./services/configService";
+import { Config } from "./types";
 
 const main = () => {
     const board = document.querySelector("#board-board");
     if (board === null) return;
 
-    const config = {
+    const config: Config = {
         playerIsWhite: configService.playerIsWhite(),
     };
 

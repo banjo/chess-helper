@@ -1,4 +1,7 @@
+import { chessTypes } from "./../models/chessTypes";
+import { MetaData } from "./../types";
 import { chessMoves } from "./../models/chessMoves";
+import { moveService } from "./moveService";
 let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const clearSquare = (board: Element) => {
@@ -116,42 +119,29 @@ const getPossibleMoveSquares = (moves, metaData, config) => {
             continue;
         }
 
-        // pawn
-        const isWhitePlayerAndWhitePiece =
-            config.playerIsWhite && metaData.isWhite;
-
-        if (m.x !== 0) {
-            if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-                square = square - m.x * 10;
-            } else {
-                square = square + m.x * 10;
-            }
-        }
-
-        if (m.y !== 0) {
-            if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-                square = square - m.y;
-            } else {
-                square = square + m.y;
-            }
-        }
-
-        if (validateSquare(square)) result.push(square);
+        const pawnMove = moveService.preparePawnMove(m, metaData, config);
+        if (validateSquare(square)) result.push(pawnMove);
     }
 
     return result;
 };
 
-const getMetaDataForSquare = (target) => {
+const getMetaDataForSquare = (target): MetaData | null => {
     if (target instanceof SVGElement) return null;
 
     if (!target?.className?.includes("piece")) return null;
 
     const data = target.className.split(" ");
-    const square = data[2].split("-")[1];
+
+    const pieceInfo = data[1];
+    const squareInfo = data[2];
+
+    const square = squareInfo.split("-")[1];
+    const pieceAbbreviation = pieceInfo[1];
+
     return {
-        isWhite: data[1].startsWith("b") ? false : true,
-        type: chessMoves[data[1][1]],
+        isWhite: pieceInfo.startsWith("b") ? false : true,
+        type: chessTypes[pieceAbbreviation],
         square,
     };
 };

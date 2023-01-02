@@ -1,4 +1,12 @@
-export const chessMoves = {
+import { ChessType } from "./chessTypes";
+
+export type ChessMove = {
+    x: number | "n" | "n1";
+    y: number | "n" | "n1";
+    if?: string[];
+};
+
+export const chessMoves: Record<ChessType, ChessMove[]> = {
     pawn: [
         {
             x: 0,
@@ -50,4 +58,6 @@ export const chessMoves = {
             x: "n",
         },
     ],
+    knight: [],
+    king: [],
 };
