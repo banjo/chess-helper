@@ -98,7 +98,6 @@ const prepareNMoves = (
             }
 
             if (square.isOnPiece()) {
-                console.log("is on piece", square.getCurrent());
                 moves.push(square.getSquare());
                 break;
             }

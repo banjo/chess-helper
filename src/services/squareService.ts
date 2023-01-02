@@ -28,13 +28,6 @@ const getCurrentLocationPieceInfo = (square: number, start: number) => {
         return current?.classList[0] === "piece";
     };
 
-    console.log(
-        isOnPiece(current),
-        square,
-        document.querySelector(`.square-${square}`),
-        document.querySelectorAll(`.square-${square}`)
-    );
-
     const isStandingOnWhitePiece = (current: Element) => {
         return current?.classList[1].startsWith("w");
     };
