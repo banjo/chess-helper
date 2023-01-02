@@ -17,7 +17,11 @@ const getCurrentLocationPieceInfo = (square: number, start: number) => {
     if (square === start) return null;
 
     const startSquare = document.querySelector(`.square-${start}`);
-    const current = document.querySelector(`.square-${square}`);
+
+    const current = Array.from(
+        document.querySelectorAll(`.square-${square}`)
+    ).find((e) => e.classList[0] === "piece");
+
     const isBlackPiecePlaying = startSquare?.classList[1]?.startsWith("b");
 
     const isOnPiece = (current: Element) => {
@@ -27,7 +31,8 @@ const getCurrentLocationPieceInfo = (square: number, start: number) => {
     console.log(
         isOnPiece(current),
         square,
-        document.querySelector(`.square-${square}`)
+        document.querySelector(`.square-${square}`),
+        document.querySelectorAll(`.square-${square}`)
     );
 
     const isStandingOnWhitePiece = (current: Element) => {
