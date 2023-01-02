@@ -1,6 +1,6 @@
 let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
 
-const clearSquare = (board: HTMLElement) => {
+const clearSquare = (board: Element) => {
     const toRemove = board.querySelectorAll(".doRemove");
 
     for (const element of toRemove as any) {

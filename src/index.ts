@@ -16,11 +16,10 @@ const getMetaData = (target) => {
     };
 };
 
-let board;
-let playerIsWhite;
+
 
 const main = () => {
-    board = document.querySelector("#board-board");
+    const board = document.querySelector("#board-board");
     const config = {
         playerIsWhite: true,
     };
