@@ -1,6 +1,6 @@
 import { chessTypes } from "./../models/chessTypes";
-import { MetaData } from "./../types";
-import { chessMoves } from "./../models/chessMoves";
+import { Config, MetaData } from "./../types";
+import { ChessMove, chessMoves } from "./../models/chessMoves";
 import { moveService } from "./moveService";
 let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -33,97 +33,36 @@ const validateSquare = (square: string | number) => {
     return true;
 };
 
-const getPossibleMoveSquares = (moves, metaData, config) => {
-    let result = [] as number[];
+const getPossibleMoveSquares = (
+    moves: ChessMove[],
+    metaData: MetaData,
+    config: Config
+) => {
+    for (const move of moves) {
+        let moves;
+        switch (metaData.type) {
+            case "pawn":
+                moves = moveService.preparePawnMove(move, metaData, config);
+                break;
+            case "rook":
+                moves = moveService.prepareNMoves(move, metaData, config);
+                break;
+            case "bishop":
+                moves = moveService.prepareN1Moves(move, metaData, config);
+                break;
+            case "queen":
+                const nMoves = moveService.prepareNMoves(move, metaData, config);
+                const n1Moves = moveService.prepareN1Moves(move, metaData, config);
+                moves = [...nMoves, ...n1Moves];
 
-    for (const m of moves) {
-        let square = Number(metaData.square);
-
-        // n1
-        if (m.x === "n1" && m.y === "n1") {
-            let finalSquare = square;
-
-            for (const number of fullLength) {
-                let firstWay = finalSquare + number + number * 10;
-                if (!validateSquare(firstWay)) break;
-
-                if (isLocatedOnAnotherPiece(firstWay)) {
-                    result.push(firstWay);
-                    break;
-                }
-
-                result.push(firstWay);
-            }
-
-            for (const number of fullLength) {
-                let firstWay = finalSquare - number - number * 10;
-                if (!validateSquare(firstWay)) break;
-
-                if (isLocatedOnAnotherPiece(firstWay)) {
-                    result.push(firstWay);
-                    break;
-                }
-
-                result.push(firstWay);
-            }
-
-            for (const number of fullLength) {
-                let firstWay = finalSquare + number - number * 10;
-                if (!validateSquare(firstWay)) break;
-
-                if (isLocatedOnAnotherPiece(firstWay)) {
-                    result.push(firstWay);
-                    break;
-                }
-
-                result.push(firstWay);
-            }
-
-            for (const number of fullLength) {
-                let firstWay = finalSquare - number + number * 10;
-                if (!validateSquare(firstWay)) break;
-
-                if (isLocatedOnAnotherPiece(firstWay)) {
-                    result.push(firstWay);
-                    break;
-                }
-
-                result.push(firstWay);
-            }
-
-            continue;
+            default:
+                console.log("Not implemented yet");
         }
 
-        // n
-        if (m.x === "n" && m.y === "n") {
-            console.log("handle special case");
-        } else if (m.x === "n" || m.y === "n") {
-            const xIsInfinite = m.x === "n";
-
-            for (let number of fullLength) {
-                let finalSquare = square.toString();
-
-                if (xIsInfinite) {
-                    finalSquare = number.toString() + finalSquare.slice(1);
-                } else {
-                    finalSquare = finalSquare.slice(0, -1) + number.toString();
-                }
-
-                if (square.toString() === finalSquare) continue;
-                if (!validateSquare(finalSquare)) continue;
-                if (isLocatedOnAnotherPiece(Number(finalSquare))) continue;
-
-                result.push(Number(finalSquare));
-            }
-
-            continue;
-        }
-
-        const pawnMove = moveService.preparePawnMove(m, metaData, config);
-        if (validateSquare(square)) result.push(pawnMove);
+        moveService.addMoves(moves);
     }
 
-    return result;
+    return moveService.getMoves();
 };
 
 const getMetaDataForSquare = (target): MetaData | null => {
