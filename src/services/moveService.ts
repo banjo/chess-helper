@@ -97,6 +97,12 @@ const prepareNMoves = (
                 break;
             }
 
+            console.log({
+                isOnPiece: square.isOnPiece(),
+                isOutsideBoard: square.isOutsideBoard(),
+                isOnEndSquare: square.isOnEndOfBoard(),
+            });
+
             if (square.isOnPiece()) {
                 moves.push(square.getSquare());
                 break;

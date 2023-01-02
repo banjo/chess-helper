@@ -1,6 +1,4 @@
 import { squareService } from "./../services/squareService";
-const MAX_SQUARE = 8;
-const MIN_SQUARE = 1;
 const ALTERATION_FIRST = 10;
 const ALTERATION_LAST = 1;
 
@@ -19,10 +17,16 @@ export type SquareObject = {
     getSquare: () => SquareObject;
 };
 
-export type SquareHook = (square: number | string) => SquareObject;
+export type SquareHook = (
+    square: number | string,
+    startSquare?: null | number
+) => SquareObject;
 
-export const Square: SquareHook = (square: number | string) => {
-    const startSquare = Number(square);
+export const Square: SquareHook = (
+    square: number | string,
+    startSquare: null | number = null
+) => {
+    startSquare = startSquare ?? Number(square);
     let current = Number(square);
     let isOnPiece = false;
     let isOnEndOfBoard = false;
@@ -48,44 +52,27 @@ export const Square: SquareHook = (square: number | string) => {
     const getLast = () => Number(String(current).charAt(1));
 
     const increaseFirst = () => {
-        if (getFirst() === MAX_SQUARE) {
-            validate();
-            return null;
-        }
         current += ALTERATION_FIRST;
         validate();
-        return Square(current);
+        return Square(current, startSquare);
     };
 
     const decreaseFirst = () => {
-        if (getFirst() === MIN_SQUARE) {
-            validate();
-            return null;
-        }
         current -= ALTERATION_FIRST;
         validate();
-        return Square(current);
+        return Square(current, startSquare);
     };
 
     const increaseLast = () => {
-        if (getLast() === MAX_SQUARE) {
-            validate();
-            return null;
-        }
         current += ALTERATION_LAST;
         validate();
-        return Square(current);
+        return Square(current, startSquare);
     };
 
     const decreaseLast = () => {
-        if (getLast() === MIN_SQUARE) {
-            validate();
-            return null;
-        }
-
         current -= ALTERATION_LAST;
         validate();
-        return Square(current);
+        return Square(current, startSquare);
     };
 
     return {
@@ -100,6 +87,6 @@ export const Square: SquareHook = (square: number | string) => {
         isOnPiece: () => isOnPiece,
         isOnEndOfBoard: () => isOnEndOfBoard,
         isOutsideBoard: () => isOutsideBoard,
-        getSquare: () => Square(current),
+        getSquare: () => Square(current, startSquare),
     };
 };

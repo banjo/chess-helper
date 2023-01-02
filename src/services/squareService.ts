@@ -3,7 +3,6 @@ import { Config, MetaData } from "./../types";
 import { ChessMove, chessMoves } from "./../models/chessMoves";
 import { moveService } from "./moveService";
 import { SquareObject } from "../hooks/square";
-let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const clearSquare = (board: Element) => {
     const toRemove = board.querySelectorAll(".doRemove");
