@@ -1,3 +1,4 @@
+import { chessMoves } from "./../models/chessMoves";
 let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const clearSquare = (board: Element) => {
@@ -141,9 +142,24 @@ const getPossibleMoveSquares = (moves, metaData, config) => {
     return result;
 };
 
+const getMetaDataForSquare = (target) => {
+    if (target instanceof SVGElement) return null;
+
+    if (!target?.className?.includes("piece")) return null;
+
+    const data = target.className.split(" ");
+    const square = data[2].split("-")[1];
+    return {
+        isWhite: data[1].startsWith("b") ? false : true,
+        type: chessMoves[data[1][1]],
+        square,
+    };
+};
+
 export const squareService = {
     clearSquare,
     validateSquare,
     isLocatedOnAnotherPiece,
     getPossibleMoveSquares,
+    getMetaDataForSquare,
 };
