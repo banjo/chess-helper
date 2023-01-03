@@ -3,8 +3,6 @@ import { ChessMove } from "../models/chessMoves";
 import { squareService } from "./squareService";
 import { Square, SquareObject } from "../hooks/square";
 
-let fullLength = [1, 2, 3, 4, 5, 6, 7, 8];
-
 const prepareN1Moves = (
     move: ChessMove,
     metaData: MetaData,
@@ -12,57 +10,54 @@ const prepareN1Moves = (
 ): SquareObject[] => {
     let moves = [] as SquareObject[];
 
-    // if (move.x === "n1" && move.y === "n1") {
-    //     let finalSquare = metaData.square;
+    if (move.x !== "n1" || move.y !== "n1") {
+        console.log("Both need to be n1");
+        return moves;
+    }
 
-    //     for (const number of fullLength) {
-    //         let firstWay = finalSquare + number + number * 10;
-    //         if (!squareService.validateSquare(firstWay)) break;
+    const startSquare = Square(metaData.square);
 
-    //         if (squareService.isLocatedOnAnotherPiece(firstWay)) {
-    //             moves.push(firstWay);
-    //             break;
-    //         }
+    const handleN1Move = (
+        square: SquareObject,
+        callback: (square: SquareObject) => SquareObject
+    ) => {
+        let tempSquare = square.getSquare();
+        while (true) {
+            tempSquare = callback(tempSquare);
 
-    //         moves.push(firstWay);
-    //     }
+            if (tempSquare?.isOutsideBoard() || tempSquare === null) {
+                break;
+            }
 
-    //     for (const number of fullLength) {
-    //         let firstWay = finalSquare - number - number * 10;
-    //         if (!squareService.validateSquare(firstWay)) break;
+            if (tempSquare.isOnPiece()) {
+                if (tempSquare.isOnEnemyPiece())
+                    moves.push(tempSquare.getSquare());
+                break;
+            }
 
-    //         if (squareService.isLocatedOnAnotherPiece(firstWay)) {
-    //             moves.push(firstWay);
-    //             break;
-    //         }
+            moves.push(tempSquare.getSquare());
+        }
+    };
 
-    //         moves.push(firstWay);
-    //     }
+    handleN1Move(startSquare, (square) => {
+        square.goUp();
+        return square.goRight();
+    });
 
-    //     for (const number of fullLength) {
-    //         let firstWay = finalSquare + number - number * 10;
-    //         if (!squareService.validateSquare(firstWay)) break;
+    handleN1Move(startSquare, (square) => {
+        square.goUp();
+        return square.goLeft();
+    });
 
-    //         if (squareService.isLocatedOnAnotherPiece(firstWay)) {
-    //             moves.push(firstWay);
-    //             break;
-    //         }
+    handleN1Move(startSquare, (square) => {
+        square.goDown();
+        return square.goRight();
+    });
 
-    //         moves.push(firstWay);
-    //     }
-
-    //     for (const number of fullLength) {
-    //         let firstWay = finalSquare - number + number * 10;
-    //         if (!squareService.validateSquare(firstWay)) break;
-
-    //         if (squareService.isLocatedOnAnotherPiece(firstWay)) {
-    //             moves.push(firstWay);
-    //             break;
-    //         }
-
-    //         moves.push(firstWay);
-    //     }
-    // }
+    handleN1Move(startSquare, (square) => {
+        square.goDown();
+        return square.goLeft();
+    });
 
     return moves;
 };
@@ -89,7 +84,10 @@ const prepareNMoves = (
 
     let tempSquare = square.getSquare();
 
-    const handleSquare = (square: SquareObject, callback) => {
+    const handleSquare = (
+        square: SquareObject,
+        callback: (square: SquareObject) => SquareObject
+    ) => {
         while (true) {
             square = callback(square);
 

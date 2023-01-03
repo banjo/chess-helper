@@ -86,9 +86,9 @@ const getPossibleMoveSquares = (
             case "rook":
                 moves = moveService.prepareNMoves(move, metaData, config);
                 break;
-            // case "bishop":
-            //     moves = moveService.prepareN1Moves(move, metaData, config);
-            //     break;
+            case "bishop":
+                moves = moveService.prepareN1Moves(move, metaData, config);
+                break;
             // case "queen":
             //     const nMoves = moveService.prepareNMoves(move, metaData, config);
             //     const n1Moves = moveService.prepareN1Moves(move, metaData, config);
