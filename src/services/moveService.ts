@@ -128,9 +128,13 @@ const preparePawnMove = (
     if (move.x !== 0 && Number.isInteger(move.x)) {
         let x = move.x as number;
         if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-            square.decreaseLast();
+            for (let i = 0; i < x; i++) {
+                square.decreaseFirst();
+            }
         } else {
-            square.increaseLast;
+            for (let i = 0; i < x; i++) {
+                square.increaseFirst();
+            }
         }
     }
 
@@ -138,9 +142,13 @@ const preparePawnMove = (
         let y = move.y as number;
 
         if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-            square.decreaseFirst();
+            for (let i = 0; i < y; i++) {
+                square.decreaseLast();
+            }
         } else {
-            square.increaseFirst();
+            for (let i = 0; i < y; i++) {
+                square.increaseLast();
+            }
         }
     }
 
