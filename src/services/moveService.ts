@@ -98,7 +98,7 @@ const prepareNMoves = (
             }
 
             if (square.isOnPiece()) {
-                moves.push(square.getSquare());
+                if (square.isOnEnemyPiece()) moves.push(square.getSquare());
                 break;
             }
 
