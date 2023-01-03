@@ -33,17 +33,23 @@ const displayMoves = () => {
             (s) => s.getCurrent() === square.getCurrent()
         );
 
+        // TODO: include pawn side movement in possible enemy moves and exlude pawn front movement
+
+        const isUserPiece =
+            (configService.playerIsWhite() && square.getMetaData().isWhite) ||
+            (!configService.playerIsWhite() && !square.getMetaData().isWhite);
+
         let color = backgroundColors.possibleMove;
 
-        //TODO: show only possible enemy moves for user
-
-        if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
-            color = backgroundColors.possibleEnemyMove;
-            // TODO: add indication that is possible to take but also to be taken afterwards
-        } else if (isPossibleEnemyMove) {
-            color = backgroundColors.possibleEnemyMove;
-        } else if (square.isOnEnemyPiece()) {
-            color = backgroundColors.onEnemyPiece;
+        if (isUserPiece) {
+            if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
+                color = backgroundColors.possibleEnemyMove;
+                // TODO: add indication that is possible to take but also to be taken afterwards
+            } else if (isPossibleEnemyMove) {
+                color = backgroundColors.possibleEnemyMove;
+            } else if (square.isOnEnemyPiece()) {
+                color = backgroundColors.onEnemyPiece;
+            }
         }
 
         element.style.backgroundColor = color;
