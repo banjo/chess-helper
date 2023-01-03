@@ -107,11 +107,11 @@ const prepareNMoves = (
     };
 
     if (handleVertical) {
-        handleSquare(tempSquare, (square) => square.increaseLast());
-        handleSquare(tempSquare, (square) => square.decreaseLast());
+        handleSquare(tempSquare, (square) => square.goUp());
+        handleSquare(tempSquare, (square) => square.goDown());
     } else {
-        handleSquare(tempSquare, (square) => square.increaseFirst());
-        handleSquare(tempSquare, (square) => square.decreaseFirst());
+        handleSquare(tempSquare, (square) => square.goRight());
+        handleSquare(tempSquare, (square) => square.goLeft());
     }
 
     return moves;
@@ -163,17 +163,17 @@ const preparePawnMove = (
     };
 
     handleAxis("y", move, metaData, {
-            blackAndPositive: (square) => square.decreaseLast(),
-            blackAndNegative: (square) => square.increaseLast(),
-            whiteAndPositive: (square) => square.increaseLast(),
-            whiteAndNegative: (square) => square.decreaseLast(),
-        });
+        blackAndPositive: (square) => square.goDown(),
+        blackAndNegative: (square) => square.goUp(),
+        whiteAndPositive: (square) => square.goUp(),
+        whiteAndNegative: (square) => square.goDown(),
+    });
 
     handleAxis("x", move, metaData, {
-        blackAndPositive: (square) => square.decreaseFirst(),
-        blackAndNegative: (square) => square.increaseFirst(),
-        whiteAndPositive: (square) => square.increaseFirst(),
-        whiteAndNegative: (square) => square.decreaseFirst(),
+        blackAndPositive: (square) => square.goLeft(),
+        blackAndNegative: (square) => square.goRight(),
+        whiteAndPositive: (square) => square.goRight(),
+        whiteAndNegative: (square) => square.goLeft(),
     });
 
     return square;
