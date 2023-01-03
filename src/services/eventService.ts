@@ -32,6 +32,10 @@ const addRightClickEvent = (config: Config) => {
         );
 
         possibleMoves.forEach((square) => {
+            if (square.getCurrent() === square.getStartSquare()) return;
+
+            if (square.isOnPiece() && !square.isOnEnemyPiece()) return;
+
             const classes = [
                 "hint",
                 `square-${square.getCurrent()}`,
