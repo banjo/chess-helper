@@ -8,7 +8,7 @@ const main = () => {
     };
 
     eventService.addLeftClickEvent();
-    eventService.addRightClickEvent(config);
+    eventService.addRightClickEvent();
 };
 
 window.onload = () => {

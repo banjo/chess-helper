@@ -67,11 +67,7 @@ const isOutsideOfBoard = (square: number) => {
     return false;
 };
 
-const getPossibleMoveSquares = (
-    moves: ChessMove[],
-    metaData: MetaData,
-    config: Config
-) => {
+const getPossibleMoveSquares = (moves: ChessMove[], metaData: MetaData) => {
     let totalMoves: SquareObject[] = [];
 
     for (const move of moves) {
@@ -79,53 +75,36 @@ const getPossibleMoveSquares = (
 
         switch (metaData.type) {
             case "pawn":
-                const pawnMove = moveService.preparePawnMove(
-                    move,
-                    metaData,
-                    config
-                );
+                const pawnMove = moveService.preparePawnMove(move, metaData);
 
                 if (pawnMove) tempMoves = [pawnMove];
                 break;
             case "rook":
-                tempMoves = moveService.prepareNMoves(move, metaData, config);
+                tempMoves = moveService.prepareNMoves(move, metaData);
                 break;
             case "bishop":
-                tempMoves = moveService.prepareN1Moves(move, metaData, config);
+                tempMoves = moveService.prepareN1Moves(move, metaData);
                 break;
             case "queen":
                 const isNMove = move.x === "n" || move.y === "n";
 
                 if (isNMove) {
-                    tempMoves = moveService.prepareNMoves(
-                        move,
-                        metaData,
-                        config
-                    );
+                    tempMoves = moveService.prepareNMoves(move, metaData);
                 } else {
-                    tempMoves = moveService.prepareN1Moves(
-                        move,
-                        metaData,
-                        config
-                    );
+                    tempMoves = moveService.prepareN1Moves(move, metaData);
                 }
                 break;
 
             case "knight":
                 const knightMove = moveService.prepareKnightMove(
                     move,
-                    metaData,
-                    config
+                    metaData
                 );
 
                 if (knightMove) tempMoves = [knightMove];
                 break;
             case "king":
-                const kingMove = moveService.prepareKingMove(
-                    move,
-                    metaData,
-                    config
-                );
+                const kingMove = moveService.prepareKingMove(move, metaData);
 
                 if (kingMove) tempMoves = [kingMove];
                 break;

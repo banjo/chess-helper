@@ -1,3 +1,4 @@
+import { configService } from "./configService";
 import { Config, MetaData } from "./../types";
 import { ChessMove } from "../models/chessMoves";
 import { squareService } from "./squareService";
@@ -50,8 +51,7 @@ const handleAxis = (
 
 const prepareKingMove = (
     move: ChessMove,
-    metaData: MetaData,
-    config: Config
+    metaData: MetaData
 ): SquareObject | null => {
     const x = move.x as number;
     const y = move.y as number;
@@ -75,8 +75,7 @@ const prepareKingMove = (
 
 const prepareKnightMove = (
     move: ChessMove,
-    metaData: MetaData,
-    config: Config
+    metaData: MetaData
 ): SquareObject | null => {
     const x = move.x as number;
     const y = move.y as number;
@@ -96,8 +95,7 @@ const prepareKnightMove = (
 
 const prepareN1Moves = (
     move: ChessMove,
-    metaData: MetaData,
-    config: Config
+    metaData: MetaData
 ): SquareObject[] => {
     let moves = [] as SquareObject[];
 
@@ -131,11 +129,7 @@ const prepareN1Moves = (
     return moves;
 };
 
-const prepareNMoves = (
-    move: ChessMove,
-    metaData: MetaData,
-    config: Config
-): SquareObject[] => {
+const prepareNMoves = (move: ChessMove, metaData: MetaData): SquareObject[] => {
     let moves = [] as SquareObject[];
 
     if (move.x === "n" && move.y === "n") {
@@ -172,11 +166,11 @@ const prepareNMoves = (
 
 const preparePawnMove = (
     move: ChessMove,
-    metaData: MetaData,
-    config: Config
+    metaData: MetaData
 ): SquareObject | null => {
     let square = Square(metaData.square);
-    const isWhitePlayerAndWhitePiece = config.playerIsWhite && metaData.isWhite;
+    const isWhitePlayerAndWhitePiece =
+        configService.playerIsWhite() && metaData.isWhite;
 
     const isFirstMove = (square: SquareObject) => {
         if (isWhitePlayerAndWhitePiece) {
