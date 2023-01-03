@@ -89,10 +89,18 @@ const getPossibleMoveSquares = (
             case "bishop":
                 moves = moveService.prepareN1Moves(move, metaData, config);
                 break;
-            // case "queen":
-            //     const nMoves = moveService.prepareNMoves(move, metaData, config);
-            //     const n1Moves = moveService.prepareN1Moves(move, metaData, config);
-            //     moves = [...nMoves, ...n1Moves];
+            case "queen":
+                const nMoves = moveService.prepareNMoves(
+                    move,
+                    metaData,
+                    config
+                );
+                const n1Moves = moveService.prepareN1Moves(
+                    move,
+                    metaData,
+                    config
+                );
+                moves = [...nMoves, ...n1Moves];
 
             default:
                 console.log("Not implemented yet");
