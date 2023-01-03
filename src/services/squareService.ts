@@ -102,6 +102,15 @@ const getPossibleMoveSquares = (
                 );
                 moves = [...nMoves, ...n1Moves];
 
+            case "knight":
+                const knightMove = moveService.prepareKnightMoves(
+                    move,
+                    metaData,
+                    config
+                );
+
+                if (knightMove) moves = [knightMove];
+                break;
             default:
                 console.log("Not implemented yet");
         }

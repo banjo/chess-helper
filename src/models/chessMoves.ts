@@ -1,11 +1,11 @@
 import { ChessType } from "./chessTypes";
 
-export type Action = "isFirstMove" | "canAttack";
+export type Action = "isFirstMove" | "canAttack" | "always";
 
 export type ChessMove = {
     x: number | "n" | "n1";
     y: number | "n" | "n1";
-    if?: Action[];
+    condition?: Action[];
 };
 
 export const chessMoves: Record<ChessType, ChessMove[]> = {
@@ -17,17 +17,17 @@ export const chessMoves: Record<ChessType, ChessMove[]> = {
         {
             x: 0,
             y: 2,
-            if: ["isFirstMove"],
+            condition: ["isFirstMove"],
         },
         {
             y: 1,
             x: 1,
-            if: ["canAttack"],
+            condition: ["canAttack"],
         },
         {
             y: 1,
             x: -1,
-            if: ["canAttack"],
+            condition: ["canAttack"],
         },
     ],
     rook: [
@@ -60,6 +60,47 @@ export const chessMoves: Record<ChessType, ChessMove[]> = {
             x: "n",
         },
     ],
-    knight: [],
+    knight: [
+        {
+            y: 2,
+            x: 1,
+            condition: ["always"],
+        },
+        {
+            y: 2,
+            x: -1,
+            condition: ["always"],
+        },
+        {
+            y: -2,
+            x: 1,
+            condition: ["always"],
+        },
+        {
+            y: -2,
+            x: -1,
+            condition: ["always"],
+        },
+        {
+            y: 1,
+            x: 2,
+            condition: ["always"],
+        },
+        {
+            y: 1,
+            x: -2,
+            condition: ["always"],
+        },
+        {
+            y: -1,
+            x: 2,
+            condition: ["always"],
+        },
+        {
+            y: -1,
+            x: -2,
+            condition: ["always"],
+        },
+    ],
     king: [],
 };

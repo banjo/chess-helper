@@ -24,6 +24,47 @@ const handleRepeatedMoveUntilBreak = (
     }
 };
 
+const prepareKnightMoves = (
+    move: ChessMove,
+    metaData: MetaData,
+    config: Config
+): SquareObject | null => {
+    const x = move.x as number;
+    const y = move.y as number;
+
+    if (Number.isNaN(x) || Number.isNaN(y)) return null;
+
+    const square = Square(metaData.square);
+
+    const handleAxis = (
+        axis: "y" | "x",
+        square: SquareObject,
+        moveOnAxis: number
+    ) => {
+        const isPositive = moveOnAxis > 0;
+        const isNegative = moveOnAxis < 0;
+
+        if (isPositive) {
+            for (let i = 0; i < moveOnAxis; i++) {
+                if (axis === "y") square.moveUp();
+                if (axis === "x") square.moveRight();
+            }
+        }
+
+        if (isNegative) {
+            for (let i = 0; i > moveOnAxis; i--) {
+                if (axis === "y") square.moveDown();
+                if (axis === "x") square.moveLeft();
+            }
+        }
+    };
+
+    handleAxis("x", square, x);
+    handleAxis("y", square, y);
+
+    return square;
+};
+
 const prepareN1Moves = (
     move: ChessMove,
     metaData: MetaData,
@@ -39,23 +80,23 @@ const prepareN1Moves = (
     const startSquare = Square(metaData.square);
 
     handleRepeatedMoveUntilBreak(startSquare, (square) => {
-        square.goUp();
-        return square.goRight();
+        square.moveUp();
+        return square.moveRight();
     });
 
     handleRepeatedMoveUntilBreak(startSquare, (square) => {
-        square.goUp();
-        return square.goLeft();
+        square.moveUp();
+        return square.moveLeft();
     });
 
     handleRepeatedMoveUntilBreak(startSquare, (square) => {
-        square.goDown();
-        return square.goRight();
+        square.moveDown();
+        return square.moveRight();
     });
 
     handleRepeatedMoveUntilBreak(startSquare, (square) => {
-        square.goDown();
-        return square.goLeft();
+        square.moveDown();
+        return square.moveLeft();
     });
 
     return moves;
@@ -82,11 +123,11 @@ const prepareNMoves = (
     const square = Square(metaData.square);
 
     if (handleVertical) {
-        handleRepeatedMoveUntilBreak(square, (square) => square.goUp());
-        handleRepeatedMoveUntilBreak(square, (square) => square.goDown());
+        handleRepeatedMoveUntilBreak(square, (square) => square.moveUp());
+        handleRepeatedMoveUntilBreak(square, (square) => square.moveDown());
     } else {
-        handleRepeatedMoveUntilBreak(square, (square) => square.goRight());
-        handleRepeatedMoveUntilBreak(square, (square) => square.goLeft());
+        handleRepeatedMoveUntilBreak(square, (square) => square.moveRight());
+        handleRepeatedMoveUntilBreak(square, (square) => square.moveLeft());
     }
 
     return moves;
@@ -108,7 +149,7 @@ const preparePawnMove = (
         }
     };
 
-    if (move?.if?.includes("isFirstMove") && !isFirstMove(square)) {
+    if (move?.condition?.includes("isFirstMove") && !isFirstMove(square)) {
         return null;
     }
 
@@ -158,24 +199,24 @@ const preparePawnMove = (
     };
 
     handleAxis("y", move, metaData, {
-        blackAndPositive: (square) => square.goDown(),
-        blackAndNegative: (square) => square.goUp(),
-        whiteAndPositive: (square) => square.goUp(),
-        whiteAndNegative: (square) => square.goDown(),
+        blackAndPositive: (square) => square.moveDown(),
+        blackAndNegative: (square) => square.moveUp(),
+        whiteAndPositive: (square) => square.moveUp(),
+        whiteAndNegative: (square) => square.moveDown(),
     });
 
     handleAxis("x", move, metaData, {
-        blackAndPositive: (square) => square.goLeft(),
-        blackAndNegative: (square) => square.goRight(),
-        whiteAndPositive: (square) => square.goRight(),
-        whiteAndNegative: (square) => square.goLeft(),
+        blackAndPositive: (square) => square.moveLeft(),
+        blackAndNegative: (square) => square.moveRight(),
+        whiteAndPositive: (square) => square.moveRight(),
+        whiteAndNegative: (square) => square.moveLeft(),
     });
 
-    if (move.if?.includes("canAttack") && !square.isOnEnemyPiece()) {
+    if (move.condition?.includes("canAttack") && !square.isOnEnemyPiece()) {
         return null;
     }
 
-    if (!move.if?.includes("canAttack") && square.isOnPiece()) {
+    if (!move.condition?.includes("canAttack") && square.isOnPiece()) {
         return null;
     }
 
@@ -186,7 +227,7 @@ const moves: SquareObject[] = [];
 
 const addMoves = (square: SquareObject | SquareObject[]) => {
     const validate = (square: SquareObject) => {
-        // if (!squareService.validateSquare(square)) return;
+        if (squareService.isOutsideOfBoard(square.getCurrent())) return;
         moves.push(square);
     };
 
@@ -208,6 +249,7 @@ const clearMoves = () => {
 
 export const moveService = {
     preparePawnMove,
+    prepareKnightMoves,
     addMoves,
     getMoves,
     clearMoves,

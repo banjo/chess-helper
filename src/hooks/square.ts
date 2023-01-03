@@ -7,10 +7,10 @@ export type SquareObject = {
     getFirst: () => number;
     getLast: () => number;
     getCurrent: () => number;
-    goRight: () => SquareObject | null;
-    goLeft: () => SquareObject | null;
-    goUp: () => SquareObject | null;
-    goDown: () => SquareObject | null;
+    moveRight: () => SquareObject | null;
+    moveLeft: () => SquareObject | null;
+    moveUp: () => SquareObject | null;
+    moveDown: () => SquareObject | null;
     isOnPiece: () => boolean;
     isOnEnemyPiece: () => boolean;
     isOnEndOfBoard: () => boolean;
@@ -63,25 +63,25 @@ export const Square: SquareHook = (
     const getFirst = () => Number(String(current).charAt(0));
     const getLast = () => Number(String(current).charAt(1));
 
-    const goRight = () => {
+    const moveRight = () => {
         current += ALTERATION_FIRST;
         validate();
         return Square(current, startSquare);
     };
 
-    const goLeft = () => {
+    const moveLeft = () => {
         current -= ALTERATION_FIRST;
         validate();
         return Square(current, startSquare);
     };
 
-    const goUp = () => {
+    const moveUp = () => {
         current += ALTERATION_LAST;
         validate();
         return Square(current, startSquare);
     };
 
-    const goDown = () => {
+    const moveDown = () => {
         current -= ALTERATION_LAST;
         validate();
         return Square(current, startSquare);
@@ -92,10 +92,10 @@ export const Square: SquareHook = (
         getFirst,
         getLast,
         getCurrent: () => current,
-        goRight,
-        goLeft,
-        goUp,
-        goDown,
+        moveRight,
+        moveLeft,
+        moveUp,
+        moveDown,
         isOnPiece: () => isOnPiece,
         isOnEnemyPiece: () => isOnEnemyPiece,
         isOnEndOfBoard: () => isOnEndOfBoard,
