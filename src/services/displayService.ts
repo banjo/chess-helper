@@ -34,10 +34,13 @@ const displayMoves = () => {
 
         let color = backgroundColors.possibleMove;
 
-        if (square.isOnEnemyPiece()) {
-            color = backgroundColors.onEnemyPiece;
+        if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
+            color = backgroundColors.possibleEnemyMove;
+            // TODO: add indication that is possible to take but also to be taken afterwards
         } else if (isPossibleEnemyMove) {
             color = backgroundColors.possibleEnemyMove;
+        } else if (square.isOnEnemyPiece()) {
+            color = backgroundColors.onEnemyPiece;
         }
 
         element.style.backgroundColor = color;
