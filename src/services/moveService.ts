@@ -127,13 +127,23 @@ const preparePawnMove = (
 
     if (move.x !== 0 && Number.isInteger(move.x)) {
         let x = move.x as number;
+        const isPositive = x > 0;
+
         if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-            for (let i = 0; i < x; i++) {
-                square.decreaseFirst();
+            for (let i = 0; i < Math.abs(x); i++) {
+                if (isPositive) {
+                    square.decreaseFirst();
+                } else {
+                    square.increaseFirst();
+                }
             }
         } else {
-            for (let i = 0; i < x; i++) {
-                square.increaseFirst();
+            for (let i = 0; i < Math.abs(x); i++) {
+                if (isPositive) {
+                    square.increaseFirst();
+                } else {
+                    square.decreaseFirst();
+                }
             }
         }
     }
