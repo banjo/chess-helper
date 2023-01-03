@@ -1,9 +1,11 @@
 import { ChessType } from "./chessTypes";
 
+export type Action = "isFirstMove" | "canAttack";
+
 export type ChessMove = {
     x: number | "n" | "n1";
     y: number | "n" | "n1";
-    if?: string[];
+    if?: Action[];
 };
 
 export const chessMoves: Record<ChessType, ChessMove[]> = {

@@ -15,6 +15,7 @@ export type SquareObject = {
     isOnEnemyPiece: () => boolean;
     isOnEndOfBoard: () => boolean;
     isOutsideBoard: () => boolean;
+    isOnRow: (row: number) => boolean;
     getSquare: () => SquareObject;
 };
 
@@ -99,6 +100,7 @@ export const Square: SquareHook = (
         isOnEnemyPiece: () => isOnEnemyPiece,
         isOnEndOfBoard: () => isOnEndOfBoard,
         isOutsideBoard: () => isOutsideBoard,
+        isOnRow: (row: number) => getLast() === row,
         getSquare: () => Square(current, startSquare),
     };
 };

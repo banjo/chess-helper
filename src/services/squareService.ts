@@ -78,7 +78,8 @@ const getPossibleMoveSquares = (
                     metaData,
                     config
                 );
-                moves = [pawnMove];
+
+                if (pawnMove) moves = [pawnMove];
                 break;
             case "rook":
                 moves = moveService.prepareNMoves(move, metaData, config);

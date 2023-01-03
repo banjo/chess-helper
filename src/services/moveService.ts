@@ -121,9 +121,21 @@ const preparePawnMove = (
     move: ChessMove,
     metaData: MetaData,
     config: Config
-): SquareObject => {
+): SquareObject | null => {
     let square = Square(metaData.square);
     const isWhitePlayerAndWhitePiece = config.playerIsWhite && metaData.isWhite;
+
+    const isFirstMove = (square: SquareObject) => {
+        if (isWhitePlayerAndWhitePiece) {
+            return square.getSquare().isOnRow(2);
+        } else {
+            return square.getSquare().isOnRow(7);
+        }
+    };
+
+    if (move?.if?.includes("isFirstMove") && !isFirstMove(square)) {
+        return null;
+    }
 
     const handleAxis = (
         axis: "x" | "y",
@@ -149,6 +161,10 @@ const preparePawnMove = (
                     } else {
                         callbacks.whiteAndNegative(square);
                     }
+
+                    if (square.isOnPiece()) {
+                        break;
+                    }
                 }
             } else {
                 for (let i = 0; i < Math.abs(x); i++) {
@@ -156,6 +172,10 @@ const preparePawnMove = (
                         callbacks.blackAndPositive(square);
                     } else {
                         callbacks.blackAndNegative(square);
+                    }
+
+                    if (square.isOnPiece()) {
+                        break;
                     }
                 }
             }
