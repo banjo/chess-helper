@@ -225,7 +225,9 @@ const preparePawnMove = (
 
 const moves: SquareObject[] = [];
 
-const addMoves = (square: SquareObject | SquareObject[]) => {
+const addMoves = (square: SquareObject | SquareObject[] | null | undefined) => {
+    if (!square) return;
+
     const validate = (square: SquareObject) => {
         if (squareService.isOutsideOfBoard(square.getCurrent())) return;
         moves.push(square);
