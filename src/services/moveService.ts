@@ -162,18 +162,18 @@ const preparePawnMove = (
         }
     };
 
+    handleAxis("y", move, metaData, {
+            blackAndPositive: (square) => square.decreaseLast(),
+            blackAndNegative: (square) => square.increaseLast(),
+            whiteAndPositive: (square) => square.increaseLast(),
+            whiteAndNegative: (square) => square.decreaseLast(),
+        });
+
     handleAxis("x", move, metaData, {
         blackAndPositive: (square) => square.decreaseFirst(),
         blackAndNegative: (square) => square.increaseFirst(),
         whiteAndPositive: (square) => square.increaseFirst(),
         whiteAndNegative: (square) => square.decreaseFirst(),
-    });
-
-    handleAxis("y", move, metaData, {
-        blackAndPositive: (square) => square.decreaseLast(),
-        blackAndNegative: (square) => square.increaseLast(),
-        whiteAndPositive: (square) => square.increaseLast(),
-        whiteAndNegative: (square) => square.decreaseLast(),
     });
 
     return square;
