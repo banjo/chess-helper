@@ -1,3 +1,4 @@
+import { configService } from "./configService";
 import { SquareObject } from "./../hooks/square";
 import { displayMoveService } from "./displayMoveService";
 import { domService } from "./domService";
@@ -33,6 +34,8 @@ const displayMoves = () => {
         );
 
         let color = backgroundColors.possibleMove;
+
+        //TODO: show only possible enemy moves for user
 
         if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
             color = backgroundColors.possibleEnemyMove;

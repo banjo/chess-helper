@@ -60,7 +60,7 @@ const prepareKingMove = (
         console.log("Both need to be numbers");
         return null;
     }
-    const square = Square(metaData.square);
+    const square = Square(metaData.square, metaData);
 
     // TODO: handle castling
     if (move.condition?.includes("castling")) {
@@ -85,7 +85,7 @@ const prepareKnightMove = (
         return null;
     }
 
-    const square = Square(metaData.square);
+    const square = Square(metaData.square, metaData);
 
     handleAxis("x", square, x);
     handleAxis("y", square, y);
@@ -104,7 +104,7 @@ const prepareN1Moves = (
         return moves;
     }
 
-    const startSquare = Square(metaData.square);
+    const startSquare = Square(metaData.square, metaData);
 
     handleRepeatedMoveUntilBreak(startSquare, moves, (square) => {
         square.moveUp();
@@ -143,7 +143,7 @@ const prepareNMoves = (move: ChessMove, metaData: MetaData): SquareObject[] => {
     }
 
     const handleVertical = move.y === "n";
-    const square = Square(metaData.square);
+    const square = Square(metaData.square, metaData);
 
     if (handleVertical) {
         handleRepeatedMoveUntilBreak(square, moves, (square) =>
@@ -168,7 +168,7 @@ const preparePawnMove = (
     move: ChessMove,
     metaData: MetaData
 ): SquareObject | null => {
-    let square = Square(metaData.square);
+    let square = Square(metaData.square, metaData);
     const isWhitePlayerAndWhitePiece =
         configService.playerIsWhite() && metaData.isWhite;
 

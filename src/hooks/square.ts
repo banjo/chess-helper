@@ -1,3 +1,5 @@
+import { MetaData } from "./../types";
+import { ChessType } from "./../models/chessTypes";
 import { squareService } from "./../services/squareService";
 const ALTERATION_FIRST = 10;
 const ALTERATION_LAST = 1;
@@ -7,6 +9,7 @@ export type SquareObject = {
     getFirst: () => number;
     getLast: () => number;
     getCurrent: () => number;
+    getMetaData: () => MetaData;
     moveRight: () => SquareObject | null;
     moveLeft: () => SquareObject | null;
     moveUp: () => SquareObject | null;
@@ -21,11 +24,13 @@ export type SquareObject = {
 
 export type SquareHook = (
     square: number | string,
+    metaData: MetaData,
     startSquare?: null | number
 ) => SquareObject;
 
 export const Square: SquareHook = (
     square: number | string,
+    metaData: MetaData,
     startSquare: null | number = null
 ) => {
     startSquare = startSquare ?? Number(square);
@@ -66,25 +71,25 @@ export const Square: SquareHook = (
     const moveRight = () => {
         current += ALTERATION_FIRST;
         validate();
-        return Square(current, startSquare);
+        return Square(current, metaData, startSquare);
     };
 
     const moveLeft = () => {
         current -= ALTERATION_FIRST;
         validate();
-        return Square(current, startSquare);
+        return Square(current, metaData, startSquare);
     };
 
     const moveUp = () => {
         current += ALTERATION_LAST;
         validate();
-        return Square(current, startSquare);
+        return Square(current, metaData, startSquare);
     };
 
     const moveDown = () => {
         current -= ALTERATION_LAST;
         validate();
-        return Square(current, startSquare);
+        return Square(current, metaData, startSquare);
     };
 
     return {
@@ -92,6 +97,7 @@ export const Square: SquareHook = (
         getFirst,
         getLast,
         getCurrent: () => current,
+        getMetaData: () => metaData,
         moveRight,
         moveLeft,
         moveUp,
@@ -101,6 +107,6 @@ export const Square: SquareHook = (
         isOnEndOfBoard: () => isOnEndOfBoard,
         isOutsideBoard: () => isOutsideBoard,
         isOnRow: (row: number) => getLast() === row,
-        getSquare: () => Square(current, startSquare),
+        getSquare: () => Square(current, metaData, startSquare),
     };
 };
