@@ -16,7 +16,9 @@ const clearSquare = (board: Element) => {
 const getCurrentLocationPieceInfo = (square: number, start: number) => {
     if (square === start) return null;
 
-    const startSquare = document.querySelector(`.square-${start}`);
+    const startSquare = Array.from(
+        document.querySelectorAll(`.square-${start}`)
+    ).find((e) => e.classList[0] === "piece");
 
     const current = Array.from(
         document.querySelectorAll(`.square-${square}`)

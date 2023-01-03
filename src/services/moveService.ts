@@ -196,6 +196,14 @@ const preparePawnMove = (
         whiteAndNegative: (square) => square.goLeft(),
     });
 
+    if (move.if?.includes("canAttack") && !square.isOnEnemyPiece()) {
+        return null;
+    }
+
+    if (!move.if?.includes("canAttack") && square.isOnPiece()) {
+        return null;
+    }
+
     return square;
 };
 

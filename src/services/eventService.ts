@@ -32,6 +32,7 @@ const addRightClickEvent = (config: Config) => {
         );
 
         possibleMoves.forEach((square) => {
+            if (square === null || square === undefined) return;
             if (square.getCurrent() === square.getStartSquare()) return;
 
             if (square.isOnPiece() && !square.isOnEnemyPiece()) return;
