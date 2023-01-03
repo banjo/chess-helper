@@ -125,42 +125,56 @@ const preparePawnMove = (
     let square = Square(metaData.square);
     const isWhitePlayerAndWhitePiece = config.playerIsWhite && metaData.isWhite;
 
-    if (move.x !== 0 && Number.isInteger(move.x)) {
-        let x = move.x as number;
-        const isPositive = x > 0;
+    const handleAxis = (
+        axis: "x" | "y",
+        move: ChessMove,
+        metaData: MetaData,
+        callbacks: {
+            blackAndPositive: (square: SquareObject) => void;
+            blackAndNegative: (square: SquareObject) => void;
+            whiteAndPositive: (square: SquareObject) => void;
+            whiteAndNegative: (square: SquareObject) => void;
+        }
+    ) => {
+        const value = move[axis];
 
-        if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-            for (let i = 0; i < Math.abs(x); i++) {
-                if (isPositive) {
-                    square.decreaseFirst();
-                } else {
-                    square.increaseFirst();
+        if (value !== 0 && Number.isInteger(value)) {
+            let x = value as number;
+            const isPositive = x > 0;
+
+            if (isWhitePlayerAndWhitePiece) {
+                for (let i = 0; i < Math.abs(x); i++) {
+                    if (isPositive) {
+                        callbacks.whiteAndPositive(square);
+                    } else {
+                        callbacks.whiteAndNegative(square);
+                    }
                 }
-            }
-        } else {
-            for (let i = 0; i < Math.abs(x); i++) {
-                if (isPositive) {
-                    square.increaseFirst();
-                } else {
-                    square.decreaseFirst();
+            } else {
+                for (let i = 0; i < Math.abs(x); i++) {
+                    if (isPositive) {
+                        callbacks.blackAndPositive(square);
+                    } else {
+                        callbacks.blackAndNegative(square);
+                    }
                 }
             }
         }
-    }
+    };
 
-    if (move.y !== 0 && Number.isInteger(move.y)) {
-        let y = move.y as number;
+    handleAxis("x", move, metaData, {
+        blackAndPositive: (square) => square.decreaseFirst(),
+        blackAndNegative: (square) => square.increaseFirst(),
+        whiteAndPositive: (square) => square.increaseFirst(),
+        whiteAndNegative: (square) => square.decreaseFirst(),
+    });
 
-        if (metaData.type === "pawn" && !isWhitePlayerAndWhitePiece) {
-            for (let i = 0; i < y; i++) {
-                square.decreaseLast();
-            }
-        } else {
-            for (let i = 0; i < y; i++) {
-                square.increaseLast();
-            }
-        }
-    }
+    handleAxis("y", move, metaData, {
+        blackAndPositive: (square) => square.decreaseLast(),
+        blackAndNegative: (square) => square.increaseLast(),
+        whiteAndPositive: (square) => square.increaseLast(),
+        whiteAndNegative: (square) => square.decreaseLast(),
+    });
 
     return square;
 };
