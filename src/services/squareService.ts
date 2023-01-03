@@ -103,13 +103,22 @@ const getPossibleMoveSquares = (
                 moves = [...nMoves, ...n1Moves];
 
             case "knight":
-                const knightMove = moveService.prepareKnightMoves(
+                const knightMove = moveService.prepareKnightMove(
                     move,
                     metaData,
                     config
                 );
 
                 if (knightMove) moves = [knightMove];
+                break;
+            case "king":
+                const kingMove = moveService.prepareKingMove(
+                    move,
+                    metaData,
+                    config
+                );
+
+                if (kingMove) moves = [kingMove];
                 break;
             default:
                 console.log("Not implemented yet");

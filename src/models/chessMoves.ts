@@ -1,6 +1,12 @@
 import { ChessType } from "./chessTypes";
 
-export type Action = "isFirstMove" | "canAttack" | "always";
+export type Action =
+    | "isFirstMove"
+    | "canAttack"
+    | "always"
+    | "isSafe"
+    | "towerUntouched"
+    | "castling";
 
 export type ChessMove = {
     x: number | "n" | "n1";
@@ -102,5 +108,57 @@ export const chessMoves: Record<ChessType, ChessMove[]> = {
             condition: ["always"],
         },
     ],
-    king: [],
+    king: [
+        {
+            y: 1,
+            x: 0,
+            condition: ["isSafe"],
+        },
+        {
+            y: 1,
+            x: 1,
+            condition: ["isSafe"],
+        },
+        {
+            y: 1,
+            x: -1,
+            condition: ["isSafe"],
+        },
+        {
+            y: -1,
+            x: 0,
+            condition: ["isSafe"],
+        },
+        {
+            y: -1,
+            x: 1,
+            condition: ["isSafe"],
+        },
+        {
+            y: -1,
+            x: -1,
+            condition: ["isSafe"],
+        },
+        {
+            y: 0,
+            x: 1,
+            condition: ["isSafe"],
+        },
+        {
+            y: 0,
+            x: -1,
+            condition: ["isSafe"],
+        },
+        // castling moves
+        {
+            y: 0,
+            x: 2,
+            condition: ["isSafe", "isFirstMove", "towerUntouched", "castling"],
+        },
+        {
+            y: 0,
+            x: -2,
+            condition: ["isSafe", "isFirstMove", "towerUntouched", "castling"],
+        },
+    ],
 };

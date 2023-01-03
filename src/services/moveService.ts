@@ -24,7 +24,30 @@ const handleRepeatedMoveUntilBreak = (
     }
 };
 
-const prepareKnightMoves = (
+const handleAxis = (
+    axis: "y" | "x",
+    square: SquareObject,
+    moveOnAxis: number
+) => {
+    const isPositive = moveOnAxis > 0;
+    const isNegative = moveOnAxis < 0;
+
+    if (isPositive) {
+        for (let i = 0; i < moveOnAxis; i++) {
+            if (axis === "y") square.moveUp();
+            if (axis === "x") square.moveRight();
+        }
+    }
+
+    if (isNegative) {
+        for (let i = 0; i > moveOnAxis; i--) {
+            if (axis === "y") square.moveDown();
+            if (axis === "x") square.moveLeft();
+        }
+    }
+};
+
+const prepareKingMove = (
     move: ChessMove,
     metaData: MetaData,
     config: Config
@@ -32,32 +55,37 @@ const prepareKnightMoves = (
     const x = move.x as number;
     const y = move.y as number;
 
-    if (Number.isNaN(x) || Number.isNaN(y)) return null;
-
+    if (Number.isNaN(x) || Number.isNaN(y)) {
+        console.log("Both need to be numbers");
+        return null;
+    }
     const square = Square(metaData.square);
 
-    const handleAxis = (
-        axis: "y" | "x",
-        square: SquareObject,
-        moveOnAxis: number
-    ) => {
-        const isPositive = moveOnAxis > 0;
-        const isNegative = moveOnAxis < 0;
+    // TODO: handle castling
+    if (move.condition?.includes("castling")) {
+        return null;
+    }
 
-        if (isPositive) {
-            for (let i = 0; i < moveOnAxis; i++) {
-                if (axis === "y") square.moveUp();
-                if (axis === "x") square.moveRight();
-            }
-        }
+    handleAxis("x", square, x);
+    handleAxis("y", square, y);
 
-        if (isNegative) {
-            for (let i = 0; i > moveOnAxis; i--) {
-                if (axis === "y") square.moveDown();
-                if (axis === "x") square.moveLeft();
-            }
-        }
-    };
+    return square;
+};
+
+const prepareKnightMove = (
+    move: ChessMove,
+    metaData: MetaData,
+    config: Config
+): SquareObject | null => {
+    const x = move.x as number;
+    const y = move.y as number;
+
+    if (Number.isNaN(x) || Number.isNaN(y)) {
+        console.log("Both need to be numbers");
+        return null;
+    }
+
+    const square = Square(metaData.square);
 
     handleAxis("x", square, x);
     handleAxis("y", square, y);
@@ -251,7 +279,8 @@ const clearMoves = () => {
 
 export const moveService = {
     preparePawnMove,
-    prepareKnightMoves,
+    prepareKnightMove,
+    prepareKingMove,
     addMoves,
     getMoves,
     clearMoves,
