@@ -1,3 +1,4 @@
+import { displayMoveService } from "./displayMoveService";
 import { configService } from "./configService";
 import { chessTypes } from "./../models/chessTypes";
 import { Config, MetaData } from "./../types";
@@ -90,17 +91,14 @@ const getPossibleMoveSquares = (
                 moves = moveService.prepareN1Moves(move, metaData, config);
                 break;
             case "queen":
-                const nMoves = moveService.prepareNMoves(
-                    move,
-                    metaData,
-                    config
-                );
-                const n1Moves = moveService.prepareN1Moves(
-                    move,
-                    metaData,
-                    config
-                );
-                moves = [...nMoves, ...n1Moves];
+                const isNMove = move.x === "n" || move.y === "n";
+
+                if (isNMove) {
+                    moves = moveService.prepareNMoves(move, metaData, config);
+                } else {
+                    moves = moveService.prepareN1Moves(move, metaData, config);
+                }
+                break;
 
             case "knight":
                 const knightMove = moveService.prepareKnightMove(
@@ -124,10 +122,10 @@ const getPossibleMoveSquares = (
                 console.log("Not implemented yet");
         }
 
-        moveService.addMoves(moves);
+        displayMoveService.addMoves(moves);
     }
 
-    return moveService.getMoves();
+    return displayMoveService.getMoves();
 };
 
 const getMetaDataForSquare = (target): MetaData | null => {

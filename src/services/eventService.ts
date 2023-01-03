@@ -3,12 +3,13 @@ import { Config } from "./../types";
 import { domService } from "./domService";
 import { chessMoves } from "./../models/chessMoves";
 import { squareService } from "./squareService";
+import { displayMoveService } from "./displayMoveService";
 
 const addLeftClickEvent = () => {
     const board = domService.getBoard();
     board.addEventListener("click", (e) => {
         squareService.clearSquare(board);
-        moveService.clearMoves();
+        displayMoveService.clearMoves();
     });
 };
 

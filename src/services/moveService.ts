@@ -5,6 +5,7 @@ import { Square, SquareObject } from "../hooks/square";
 
 const handleRepeatedMoveUntilBreak = (
     square: SquareObject,
+    moves: SquareObject[],
     callback: (square: SquareObject) => SquareObject
 ) => {
     let tempSquare = square.getSquare();
@@ -107,22 +108,22 @@ const prepareN1Moves = (
 
     const startSquare = Square(metaData.square);
 
-    handleRepeatedMoveUntilBreak(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, moves, (square) => {
         square.moveUp();
         return square.moveRight();
     });
 
-    handleRepeatedMoveUntilBreak(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, moves, (square) => {
         square.moveUp();
         return square.moveLeft();
     });
 
-    handleRepeatedMoveUntilBreak(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, moves, (square) => {
         square.moveDown();
         return square.moveRight();
     });
 
-    handleRepeatedMoveUntilBreak(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, moves, (square) => {
         square.moveDown();
         return square.moveLeft();
     });
@@ -151,11 +152,19 @@ const prepareNMoves = (
     const square = Square(metaData.square);
 
     if (handleVertical) {
-        handleRepeatedMoveUntilBreak(square, (square) => square.moveUp());
-        handleRepeatedMoveUntilBreak(square, (square) => square.moveDown());
+        handleRepeatedMoveUntilBreak(square, moves, (square) =>
+            square.moveUp()
+        );
+        handleRepeatedMoveUntilBreak(square, moves, (square) =>
+            square.moveDown()
+        );
     } else {
-        handleRepeatedMoveUntilBreak(square, (square) => square.moveRight());
-        handleRepeatedMoveUntilBreak(square, (square) => square.moveLeft());
+        handleRepeatedMoveUntilBreak(square, moves, (square) =>
+            square.moveRight()
+        );
+        handleRepeatedMoveUntilBreak(square, moves, (square) =>
+            square.moveLeft()
+        );
     }
 
     return moves;
@@ -251,39 +260,10 @@ const preparePawnMove = (
     return square;
 };
 
-const moves: SquareObject[] = [];
-
-const addMoves = (square: SquareObject | SquareObject[] | null | undefined) => {
-    if (!square) return;
-
-    const validate = (square: SquareObject) => {
-        if (squareService.isOutsideOfBoard(square.getCurrent())) return;
-        moves.push(square);
-    };
-
-    if (Array.isArray(square)) {
-        square.forEach(validate);
-        return;
-    }
-
-    validate(square);
-};
-
-const getMoves = () => {
-    return moves;
-};
-
-const clearMoves = () => {
-    moves.length = 0;
-};
-
 export const moveService = {
     preparePawnMove,
     prepareKnightMove,
     prepareKingMove,
-    addMoves,
-    getMoves,
-    clearMoves,
     prepareNMoves,
     prepareN1Moves,
 };
