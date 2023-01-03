@@ -3,6 +3,27 @@ import { ChessMove } from "../models/chessMoves";
 import { squareService } from "./squareService";
 import { Square, SquareObject } from "../hooks/square";
 
+const handleRepeatedMoveUntilBreak = (
+    square: SquareObject,
+    callback: (square: SquareObject) => SquareObject
+) => {
+    let tempSquare = square.getSquare();
+    while (true) {
+        tempSquare = callback(tempSquare);
+
+        if (tempSquare?.isOutsideBoard() || tempSquare === null) {
+            break;
+        }
+
+        if (tempSquare.isOnPiece()) {
+            if (tempSquare.isOnEnemyPiece()) moves.push(tempSquare.getSquare());
+            break;
+        }
+
+        moves.push(tempSquare.getSquare());
+    }
+};
+
 const prepareN1Moves = (
     move: ChessMove,
     metaData: MetaData,
@@ -17,44 +38,22 @@ const prepareN1Moves = (
 
     const startSquare = Square(metaData.square);
 
-    const handleN1Move = (
-        square: SquareObject,
-        callback: (square: SquareObject) => SquareObject
-    ) => {
-        let tempSquare = square.getSquare();
-        while (true) {
-            tempSquare = callback(tempSquare);
-
-            if (tempSquare?.isOutsideBoard() || tempSquare === null) {
-                break;
-            }
-
-            if (tempSquare.isOnPiece()) {
-                if (tempSquare.isOnEnemyPiece())
-                    moves.push(tempSquare.getSquare());
-                break;
-            }
-
-            moves.push(tempSquare.getSquare());
-        }
-    };
-
-    handleN1Move(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, (square) => {
         square.goUp();
         return square.goRight();
     });
 
-    handleN1Move(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, (square) => {
         square.goUp();
         return square.goLeft();
     });
 
-    handleN1Move(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, (square) => {
         square.goDown();
         return square.goRight();
     });
 
-    handleN1Move(startSquare, (square) => {
+    handleRepeatedMoveUntilBreak(startSquare, (square) => {
         square.goDown();
         return square.goLeft();
     });
@@ -82,34 +81,12 @@ const prepareNMoves = (
     const handleVertical = move.y === "n";
     const square = Square(metaData.square);
 
-    let tempSquare = square.getSquare();
-
-    const handleSquare = (
-        square: SquareObject,
-        callback: (square: SquareObject) => SquareObject
-    ) => {
-        while (true) {
-            square = callback(square);
-
-            if (square?.isOutsideBoard() || square === null) {
-                break;
-            }
-
-            if (square.isOnPiece()) {
-                if (square.isOnEnemyPiece()) moves.push(square.getSquare());
-                break;
-            }
-
-            moves.push(square.getSquare());
-        }
-    };
-
     if (handleVertical) {
-        handleSquare(tempSquare, (square) => square.goUp());
-        handleSquare(tempSquare, (square) => square.goDown());
+        handleRepeatedMoveUntilBreak(square, (square) => square.goUp());
+        handleRepeatedMoveUntilBreak(square, (square) => square.goDown());
     } else {
-        handleSquare(tempSquare, (square) => square.goRight());
-        handleSquare(tempSquare, (square) => square.goLeft());
+        handleRepeatedMoveUntilBreak(square, (square) => square.goRight());
+        handleRepeatedMoveUntilBreak(square, (square) => square.goLeft());
     }
 
     return moves;
