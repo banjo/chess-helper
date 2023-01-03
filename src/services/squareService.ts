@@ -72,8 +72,11 @@ const getPossibleMoveSquares = (
     metaData: MetaData,
     config: Config
 ) => {
+    let totalMoves: SquareObject[] = [];
+
     for (const move of moves) {
-        let moves: SquareObject[];
+        let tempMoves: SquareObject[] = [];
+
         switch (metaData.type) {
             case "pawn":
                 const pawnMove = moveService.preparePawnMove(
@@ -82,21 +85,29 @@ const getPossibleMoveSquares = (
                     config
                 );
 
-                if (pawnMove) moves = [pawnMove];
+                if (pawnMove) tempMoves = [pawnMove];
                 break;
             case "rook":
-                moves = moveService.prepareNMoves(move, metaData, config);
+                tempMoves = moveService.prepareNMoves(move, metaData, config);
                 break;
             case "bishop":
-                moves = moveService.prepareN1Moves(move, metaData, config);
+                tempMoves = moveService.prepareN1Moves(move, metaData, config);
                 break;
             case "queen":
                 const isNMove = move.x === "n" || move.y === "n";
 
                 if (isNMove) {
-                    moves = moveService.prepareNMoves(move, metaData, config);
+                    tempMoves = moveService.prepareNMoves(
+                        move,
+                        metaData,
+                        config
+                    );
                 } else {
-                    moves = moveService.prepareN1Moves(move, metaData, config);
+                    tempMoves = moveService.prepareN1Moves(
+                        move,
+                        metaData,
+                        config
+                    );
                 }
                 break;
 
@@ -107,7 +118,7 @@ const getPossibleMoveSquares = (
                     config
                 );
 
-                if (knightMove) moves = [knightMove];
+                if (knightMove) tempMoves = [knightMove];
                 break;
             case "king":
                 const kingMove = moveService.prepareKingMove(
@@ -116,16 +127,16 @@ const getPossibleMoveSquares = (
                     config
                 );
 
-                if (kingMove) moves = [kingMove];
+                if (kingMove) tempMoves = [kingMove];
                 break;
             default:
                 console.log("Not implemented yet");
         }
 
-        displayMoveService.addMoves(moves);
+        totalMoves = [...totalMoves, ...tempMoves];
     }
 
-    return displayMoveService.getMoves();
+    return totalMoves;
 };
 
 const getMetaDataForSquare = (target): MetaData | null => {
