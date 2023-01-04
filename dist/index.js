@@ -4,7 +4,7 @@ const $5a41ec06dd98719a$var$createElement = ({ type: type , classes: classes  })
     return element;
 };
 const $5a41ec06dd98719a$var$getBoard = ()=>{
-    const board = document.querySelector("#board-board");
+    const board = document.querySelector("chess-board");
     if (board === null) return;
     return board;
 };
