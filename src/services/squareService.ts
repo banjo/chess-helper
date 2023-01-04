@@ -134,7 +134,7 @@ const getMetaDataForSquare = (target): MetaData | null => {
     return {
         isWhite: pieceInfo.startsWith("b") ? false : true,
         type: chessTypes[pieceAbbreviation],
-        square,
+        square: Number(square),
     };
 };
 

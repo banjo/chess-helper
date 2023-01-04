@@ -5,7 +5,8 @@ const ALTERATION_FIRST = 10;
 const ALTERATION_LAST = 1;
 
 export type SquareObject = {
-    getStartSquare: () => number;
+    getStartSquareNumber: () => number;
+    getStartSquare: () => SquareObject;
     getFirst: () => number;
     getLast: () => number;
     getCurrent: () => number;
@@ -107,7 +108,8 @@ export const Square: SquareHook = (
     };
 
     return {
-        getStartSquare: () => startSquare,
+        getStartSquareNumber: () => startSquare,
+        getStartSquare: () => Square(startSquare, metaData),
         getFirst,
         getLast,
         getCurrent: () => current,
