@@ -29,11 +29,16 @@ const displayMoves = () => {
 
         const element = domService.createElement({
             type: "div",
-            classes: ["hint", `square-${squareMetaData.square}`, "doRemove"],
+            classes: [
+                "capture-hint",
+                `square-${squareMetaData.square}`,
+                "doRemove",
+            ],
         });
 
         if (isPieceInDanger) {
-            element.style.backgroundColor = BACKGROUND_COLORS.red;
+            element.style.borderWidth = "8px";
+            element.style.borderColor = BACKGROUND_COLORS.red;
             element.style.opacity = "0.5";
             board?.appendChild(element);
         }
