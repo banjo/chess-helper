@@ -6,10 +6,10 @@ import { domService } from "./domService";
 import { pieceService } from "./pieceService";
 
 const BACKGROUND_COLORS = {
-    onEnemyPiece: "lightgreen",
-    possibleMove: "lightgreen",
-    possibleEnemyMove: "red",
-    userPieceInDanger: "orange",
+    green: "lightgreen",
+    gray: "lightgray",
+    red: "red",
+    orange: "orange",
 };
 
 const displayMoves = () => {
@@ -33,7 +33,8 @@ const displayMoves = () => {
         });
 
         if (isPieceInDanger) {
-            element.style.backgroundColor = BACKGROUND_COLORS.userPieceInDanger;
+            element.style.backgroundColor = BACKGROUND_COLORS.red;
+            element.style.opacity = "0.5";
             board?.appendChild(element);
         }
     });
@@ -61,15 +62,15 @@ const displayMoves = () => {
             (configService.playerIsWhite() && square.getMetaData().isWhite) ||
             (!configService.playerIsWhite() && !square.getMetaData().isWhite);
 
-        let color = BACKGROUND_COLORS.possibleMove;
+        let color = BACKGROUND_COLORS.gray;
 
         if (isUserPiece) {
             if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
-                color = BACKGROUND_COLORS.possibleEnemyMove;
+                color = BACKGROUND_COLORS.orange;
             } else if (isPossibleEnemyMove) {
-                color = BACKGROUND_COLORS.possibleEnemyMove;
+                color = BACKGROUND_COLORS.orange;
             } else if (square.isOnEnemyPiece()) {
-                color = BACKGROUND_COLORS.onEnemyPiece;
+                color = BACKGROUND_COLORS.green;
             }
         }
 
