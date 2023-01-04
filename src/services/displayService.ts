@@ -68,7 +68,6 @@ const displayMoves = () => {
             (!configService.playerIsWhite() && !square.getMetaData().isWhite);
 
         let color = BACKGROUND_COLORS.gray;
-
         if (isUserPiece) {
             if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
                 color = BACKGROUND_COLORS.orange;
@@ -77,6 +76,16 @@ const displayMoves = () => {
             } else if (square.isOnEnemyPiece()) {
                 color = BACKGROUND_COLORS.green;
             }
+        }
+
+        const pieceCoveredByAmount = possibleEnemyMoves.filter(
+            (s) => s.getCurrent() === square.getCurrent()
+        ).length;
+
+        if (pieceCoveredByAmount > 1) {
+            element.textContent = pieceCoveredByAmount.toString();
+            element.style.display = "grid";
+            element.style.placeItems = "center";
         }
 
         element.style.backgroundColor = color;
