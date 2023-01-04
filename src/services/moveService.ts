@@ -18,7 +18,12 @@ const handleRepeatedMoveUntilBreak = (
         }
 
         if (tempSquare.isOnPiece()) {
-            if (tempSquare.isOnEnemyPiece()) moves.push(tempSquare.getSquare());
+            if (tempSquare.isOnEnemyPiece()) {
+                moves.push(tempSquare.getSquare());
+            } else {
+                tempSquare.setActivePiece(false);
+                moves.push(tempSquare.getSquare());
+            }
             break;
         }
 

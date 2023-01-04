@@ -34,15 +34,11 @@ const displayMoves = () => {
             (s) => s.getCurrent() === square.getCurrent()
         );
 
-        // TODO: include pawn side movement in possible enemy moves and exlude pawn front movement
-
         const isUserPiece =
             (configService.playerIsWhite() && square.getMetaData().isWhite) ||
             (!configService.playerIsWhite() && !square.getMetaData().isWhite);
 
         let color = backgroundColors.possibleMove;
-
-        // TODO: show if enemy can takout piece
 
         if (isUserPiece) {
             if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
