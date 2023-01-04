@@ -19,7 +19,10 @@ const getPossibleEnemyMoves = () => {
                 enemy
             );
 
-            return [...accumulator, ...possibleMoves];
+            return [
+                ...accumulator,
+                ...possibleMoves.filter((s) => s.canAttack()),
+            ];
         },
         []
     );

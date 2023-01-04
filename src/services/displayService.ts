@@ -8,8 +8,9 @@ const displayMoves = () => {
     const board = domService.getBoard();
     const possibleEnemyMoves = enemyService.getPossibleEnemyMoves();
     const moves = displayMoveService.getMoves();
+    const activeMoves = moves.filter((s) => s.isActivePiece());
 
-    moves.forEach((square) => {
+    activeMoves.forEach((square) => {
         if (square === null || square === undefined) return;
         if (square.getCurrent() === square.getStartSquare()) return;
         if (square.isOnPiece() && !square.isOnEnemyPiece()) return;
@@ -40,6 +41,8 @@ const displayMoves = () => {
             (!configService.playerIsWhite() && !square.getMetaData().isWhite);
 
         let color = backgroundColors.possibleMove;
+
+        // TODO: show if enemy can takout piece
 
         if (isUserPiece) {
             if (isPossibleEnemyMove && square.isOnEnemyPiece()) {

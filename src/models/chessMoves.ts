@@ -6,7 +6,8 @@ export type Action =
     | "always"
     | "isSafe"
     | "towerUntouched"
-    | "castling";
+    | "castling"
+    | "base";
 
 export type ChessMove = {
     x: number | "n" | "n1";
@@ -19,6 +20,7 @@ export const chessMoves: Record<ChessType, ChessMove[]> = {
         {
             x: 0,
             y: 1,
+            condition: ["base"]
         },
         {
             x: 0,

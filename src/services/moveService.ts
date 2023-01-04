@@ -172,7 +172,7 @@ const preparePawnMove = (
     const isWhitePlayerAndWhitePiece =
         configService.playerIsWhite() && metaData.isWhite;
 
-    const isFirstMove = (square: SquareObject) => {
+    const checkIfFirstMove = (square: SquareObject) => {
         if (isWhitePlayerAndWhitePiece) {
             return square.getSquare().isOnRow(2);
         } else {
@@ -180,9 +180,7 @@ const preparePawnMove = (
         }
     };
 
-    if (move?.condition?.includes("isFirstMove") && !isFirstMove(square)) {
-        return null;
-    }
+    const isFirstMove = checkIfFirstMove(square);
 
     const handleAxis = (
         axis: "x" | "y",
@@ -243,12 +241,34 @@ const preparePawnMove = (
         whiteAndNegative: (square) => square.moveLeft(),
     });
 
-    if (move.condition?.includes("canAttack") && !square.isOnEnemyPiece()) {
+    if (move?.condition?.includes("isFirstMove") && !isFirstMove) {
         return null;
     }
 
-    if (!move.condition?.includes("canAttack") && square.isOnPiece()) {
-        return null;
+    if (move?.condition?.includes("isFirstMove") && isFirstMove) {
+        square.setCanAttack(false);
+        return square;
+    }
+
+    if (move?.condition?.includes("canAttack") && !square.isOnEnemyPiece()) {
+        square.setActivePiece(false);
+        return square;
+    }
+
+    if (move?.condition?.includes("canAttack") && square.isOnEnemyPiece()) {
+        square.setCanAttack(true);
+        return square;
+    }
+
+    if (!move?.condition?.includes("canAttack") && square.isOnPiece()) {
+        square.setActivePiece(false);
+        square.setCanAttack(false);
+        return square;
+    }
+
+    if (move?.condition?.includes("base")) {
+        square.setCanAttack(false);
+        return square;
     }
 
     return square;

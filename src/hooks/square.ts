@@ -14,6 +14,10 @@ export type SquareObject = {
     moveLeft: () => SquareObject | null;
     moveUp: () => SquareObject | null;
     moveDown: () => SquareObject | null;
+    setActivePiece: (boolean: boolean) => void;
+    setCanAttack: (attacking: boolean) => void;
+    canAttack: () => boolean;
+    isActivePiece: () => boolean;
     isOnPiece: () => boolean;
     isOnEnemyPiece: () => boolean;
     isOnEndOfBoard: () => boolean;
@@ -39,6 +43,8 @@ export const Square: SquareHook = (
     let isOnEnemyPiece = false;
     let isOnEndOfBoard = false;
     let isOutsideBoard = false;
+    let isActivePiece = true; // active meaning that the move is valid. For example, a pawn can attack diagonally, but only if there is a piece there. Meaning that that square is registered as a move, but not active.
+    let canAttack = true; // can be false if the piece cannot overtake another piece even though the move can be done.
 
     const validate = () => {
         const info = squareService.getCurrentLocationPieceInfo(
@@ -92,6 +98,14 @@ export const Square: SquareHook = (
         return Square(current, metaData, startSquare);
     };
 
+    const setActivePiece = (active: boolean) => {
+        isActivePiece = active;
+    };
+
+    const setCanAttack = (attacking: boolean) => {
+        canAttack = attacking;
+    };
+
     return {
         getStartSquare: () => startSquare,
         getFirst,
@@ -102,6 +116,10 @@ export const Square: SquareHook = (
         moveLeft,
         moveUp,
         moveDown,
+        setActivePiece,
+        setCanAttack,
+        isActivePiece: () => isActivePiece,
+        canAttack: () => canAttack,
         isOnPiece: () => isOnPiece,
         isOnEnemyPiece: () => isOnEnemyPiece,
         isOnEndOfBoard: () => isOnEndOfBoard,
