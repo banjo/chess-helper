@@ -250,6 +250,16 @@ const preparePawnMove = (
         return null;
     }
 
+    if (
+        move?.condition?.includes("isFirstMove") &&
+        isFirstMove &&
+        square.isOnPiece()
+    ) {
+        square.setCanAttack(false);
+        square.setActivePiece(false);
+        return square;
+    }
+
     if (move?.condition?.includes("isFirstMove") && isFirstMove) {
         square.setCanAttack(false);
         return square;
