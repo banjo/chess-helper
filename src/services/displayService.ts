@@ -25,9 +25,9 @@ const displayMoves = () => {
         });
 
         const backgroundColors = {
-            onEnemyPiece: "red",
-            possibleMove: "darkgray",
-            possibleEnemyMove: "orange",
+            onEnemyPiece: "lightgreen",
+            possibleMove: "lightgreen",
+            possibleEnemyMove: "red",
         };
 
         const isPossibleEnemyMove = possibleEnemyMoves.some(
@@ -43,7 +43,6 @@ const displayMoves = () => {
         if (isUserPiece) {
             if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
                 color = backgroundColors.possibleEnemyMove;
-                // TODO: add indication that is possible to take but also to be taken afterwards
             } else if (isPossibleEnemyMove) {
                 color = backgroundColors.possibleEnemyMove;
             } else if (square.isOnEnemyPiece()) {
