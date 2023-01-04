@@ -12,14 +12,11 @@ const BACKGROUND_COLORS = {
     orange: "orange",
 };
 
-const displayMoves = () => {
-    const board = domService.getBoard();
-    const possibleEnemyMoves = pieceService.getPossibleEnemyMoves();
-    const moves = displayMoveService.getMoves();
-    const activeMoves = moves.filter((s) => s.isActivePiece());
-    const currentUserPieces = pieceService.getCurrentUserPieces();
-
-    // show pieces in danger
+const showPiecesInDanger = ({
+    board,
+    currentUserPieces,
+    possibleEnemyMoves,
+}) => {
     currentUserPieces.forEach((piece) => {
         const squareMetaData = squareService.getMetaDataForSquare(piece);
 
@@ -43,8 +40,9 @@ const displayMoves = () => {
             board?.appendChild(element);
         }
     });
+};
 
-    // show possible moves
+const showPossibleMoves = ({ board, activeMoves, possibleEnemyMoves }) => {
     activeMoves.forEach((square) => {
         if (square === null || square === undefined) return;
         if (square.getCurrent() === square.getStartSquareNumber()) return;
@@ -67,6 +65,10 @@ const displayMoves = () => {
             (configService.playerIsWhite() && square.getMetaData().isWhite) ||
             (!configService.playerIsWhite() && !square.getMetaData().isWhite);
 
+        const pieceCoveredByAmount = possibleEnemyMoves.filter(
+            (s) => s.getCurrent() === square.getCurrent()
+        ).length;
+
         let color = BACKGROUND_COLORS.gray;
         if (isUserPiece) {
             if (isPossibleEnemyMove && square.isOnEnemyPiece()) {
@@ -76,23 +78,29 @@ const displayMoves = () => {
             } else if (square.isOnEnemyPiece()) {
                 color = BACKGROUND_COLORS.green;
             }
-        }
 
-        const pieceCoveredByAmount = possibleEnemyMoves.filter(
-            (s) => s.getCurrent() === square.getCurrent()
-        ).length;
-
-        if (pieceCoveredByAmount > 1) {
-            element.textContent = pieceCoveredByAmount.toString();
-            element.style.display = "grid";
-            element.style.placeItems = "center";
+            if (pieceCoveredByAmount > 1) {
+                element.textContent = pieceCoveredByAmount.toString();
+                element.style.display = "grid";
+                element.style.placeItems = "center";
+            }
         }
 
         element.style.backgroundColor = color;
-
         element.style.opacity = "0.5";
         board?.appendChild(element);
     });
+};
+
+const displayMoves = () => {
+    const board = domService.getBoard();
+    const possibleEnemyMoves = pieceService.getPossibleEnemyMoves();
+    const moves = displayMoveService.getMoves();
+    const activeMoves = moves.filter((s) => s.isActivePiece());
+    const currentUserPieces = pieceService.getCurrentUserPieces();
+
+    showPiecesInDanger({ board, currentUserPieces, possibleEnemyMoves });
+    showPossibleMoves({ board, activeMoves, possibleEnemyMoves });
 };
 
 export const displayService = { displayMoves };
