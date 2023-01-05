@@ -16,6 +16,10 @@ const showPiecesInDanger = ({
     board,
     currentUserPieces,
     possibleEnemyMoves,
+}: {
+    board: Element;
+    currentUserPieces: Element[];
+    possibleEnemyMoves: SquareObject[];
 }) => {
     currentUserPieces.forEach((piece) => {
         const squareMetaData = squareService.getMetaDataForSquare(piece);
@@ -42,7 +46,15 @@ const showPiecesInDanger = ({
     });
 };
 
-const showPossibleMoves = ({ board, activeMoves, possibleEnemyMoves }) => {
+const showPossibleMoves = ({
+    board,
+    activeMoves,
+    possibleEnemyMoves,
+}: {
+    board: Element;
+    activeMoves: SquareObject[];
+    possibleEnemyMoves: SquareObject[];
+}) => {
     activeMoves.forEach((square) => {
         if (square === null || square === undefined) return;
         if (square.getCurrent() === square.getStartSquareNumber()) return;
@@ -92,15 +104,64 @@ const showPossibleMoves = ({ board, activeMoves, possibleEnemyMoves }) => {
     });
 };
 
+const showPossibleFreeCaptures = ({
+    board,
+    allPossibleUserMoves,
+    possibleEnemyMoves,
+}: {
+    board: Element;
+    allPossibleUserMoves: SquareObject[];
+    possibleEnemyMoves: SquareObject[];
+}) => {
+    allPossibleUserMoves.forEach((square) => {
+        if (square === null || square === undefined) return;
+        if (square.getCurrent() === square.getStartSquareNumber()) return;
+        if (square.isOnPiece() && !square.isOnEnemyPiece()) return;
+        if (!square.isOnEnemyPiece()) return;
+
+        const isPossibleEnemyMove = possibleEnemyMoves.some(
+            (s) => s.getCurrent() === square.getCurrent()
+        );
+
+        const isUserPiece =
+            (configService.playerIsWhite() && square.getMetaData().isWhite) ||
+            (!configService.playerIsWhite() && !square.getMetaData().isWhite);
+
+        const classes = [
+            "capture-hint",
+            `square-${square.getCurrent()}`,
+            "doRemove",
+        ];
+
+        const element = domService.createElement({
+            type: "div",
+            classes,
+        });
+
+        if (isUserPiece && !isPossibleEnemyMove) {
+            element.style.borderWidth = "8px";
+            element.style.borderColor = BACKGROUND_COLORS.green;
+            element.style.opacity = "0.5";
+            board?.appendChild(element);
+        }
+    });
+};
+
 const displayMoves = () => {
     const board = domService.getBoard();
     const possibleEnemyMoves = pieceService.getPossibleEnemyMoves();
-    const moves = displayMoveService.getMoves();
+    const moves = displayMoveService.getMoves(); // moves for that particlar piece
     const activeMoves = moves.filter((s) => s.isActivePiece());
     const currentUserPieces = pieceService.getCurrentUserPieces();
+    const allPossibleUserMoves = pieceService.getPossibleUserMoves();
 
     showPiecesInDanger({ board, currentUserPieces, possibleEnemyMoves });
     showPossibleMoves({ board, activeMoves, possibleEnemyMoves });
+    showPossibleFreeCaptures({
+        board,
+        allPossibleUserMoves,
+        possibleEnemyMoves,
+    });
 };
 
 export const displayService = { displayMoves };

@@ -49,8 +49,33 @@ const getPossibleEnemyMoves = () => {
     return possibleEnemyMoves;
 };
 
+const getPossibleUserMoves = () => {
+    const userPieces = getCurrentUserPieces().map((element) =>
+        squareService.getMetaDataForSquare(element)
+    );
+
+    const possibleUserMoves = userPieces.reduce<SquareObject[]>(
+        (accumulator, userPiece) => {
+            const moves = chessMoves[userPiece.type];
+            const possibleMoves = squareService.getPossibleMoveSquares(
+                moves,
+                userPiece
+            );
+
+            return [
+                ...accumulator,
+                ...possibleMoves.filter((s) => s.canAttack()),
+            ];
+        },
+        []
+    );
+
+    return possibleUserMoves;
+};
+
 export const pieceService = {
     getPossibleEnemyMoves,
+    getPossibleUserMoves,
     getCurrentEnemyPieces,
     getCurrentUserPieces,
 };

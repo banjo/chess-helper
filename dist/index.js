@@ -654,8 +654,21 @@ const $75d4a2723795b22f$var$getPossibleEnemyMoves = ()=>{
     }, []);
     return possibleEnemyMoves;
 };
+const $75d4a2723795b22f$var$getPossibleUserMoves = ()=>{
+    const userPieces = $75d4a2723795b22f$var$getCurrentUserPieces().map((element)=>(0, $1527f3817f23dd44$export$24c7ddd08b7e5376).getMetaDataForSquare(element));
+    const possibleUserMoves = userPieces.reduce((accumulator, userPiece)=>{
+        const moves = (0, $74892fecc95a5cc6$export$f222e06b09a42d9b)[userPiece.type];
+        const possibleMoves = (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).getPossibleMoveSquares(moves, userPiece);
+        return [
+            ...accumulator,
+            ...possibleMoves.filter((s)=>s.canAttack())
+        ];
+    }, []);
+    return possibleUserMoves;
+};
 const $75d4a2723795b22f$export$53addacd09add6c1 = {
     getPossibleEnemyMoves: $75d4a2723795b22f$var$getPossibleEnemyMoves,
+    getPossibleUserMoves: $75d4a2723795b22f$var$getPossibleUserMoves,
     getCurrentEnemyPieces: $75d4a2723795b22f$var$getCurrentEnemyPieces,
     getCurrentUserPieces: $75d4a2723795b22f$var$getCurrentUserPieces
 };
@@ -721,12 +734,38 @@ const $03077d7171343e18$var$showPossibleMoves = ({ board: board , activeMoves: a
         board?.appendChild(element);
     });
 };
+const $03077d7171343e18$var$showPossibleFreeCaptures = ({ board: board , allPossibleUserMoves: allPossibleUserMoves , possibleEnemyMoves: possibleEnemyMoves  })=>{
+    allPossibleUserMoves.forEach((square)=>{
+        if (square === null || square === undefined) return;
+        if (square.getCurrent() === square.getStartSquareNumber()) return;
+        if (square.isOnPiece() && !square.isOnEnemyPiece()) return;
+        if (!square.isOnEnemyPiece()) return;
+        const isPossibleEnemyMove = possibleEnemyMoves.some((s)=>s.getCurrent() === square.getCurrent());
+        const isUserPiece = (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite() && square.getMetaData().isWhite || !(0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite() && !square.getMetaData().isWhite;
+        const classes = [
+            "capture-hint",
+            `square-${square.getCurrent()}`,
+            "doRemove"
+        ];
+        const element = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).createElement({
+            type: "div",
+            classes: classes
+        });
+        if (isUserPiece && !isPossibleEnemyMove) {
+            element.style.borderWidth = "8px";
+            element.style.borderColor = $03077d7171343e18$var$BACKGROUND_COLORS.green;
+            element.style.opacity = "0.5";
+            board?.appendChild(element);
+        }
+    });
+};
 const $03077d7171343e18$var$displayMoves = ()=>{
     const board = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
     const possibleEnemyMoves = (0, $75d4a2723795b22f$export$53addacd09add6c1).getPossibleEnemyMoves();
-    const moves = (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).getMoves();
+    const moves = (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).getMoves(); // moves for that particlar piece
     const activeMoves = moves.filter((s)=>s.isActivePiece());
     const currentUserPieces = (0, $75d4a2723795b22f$export$53addacd09add6c1).getCurrentUserPieces();
+    const allPossibleUserMoves = (0, $75d4a2723795b22f$export$53addacd09add6c1).getPossibleUserMoves();
     $03077d7171343e18$var$showPiecesInDanger({
         board: board,
         currentUserPieces: currentUserPieces,
@@ -735,6 +774,11 @@ const $03077d7171343e18$var$displayMoves = ()=>{
     $03077d7171343e18$var$showPossibleMoves({
         board: board,
         activeMoves: activeMoves,
+        possibleEnemyMoves: possibleEnemyMoves
+    });
+    $03077d7171343e18$var$showPossibleFreeCaptures({
+        board: board,
+        allPossibleUserMoves: allPossibleUserMoves,
         possibleEnemyMoves: possibleEnemyMoves
     });
 };
