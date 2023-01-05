@@ -24,8 +24,6 @@ const addRightClickEvent = () => {
 
         if (metaData === null) return;
 
-        console.log("BOARD: ", metaData.square);
-
         const moves = chessMoves[metaData.type];
 
         const possibleMoves = squareService.getPossibleMoveSquares(

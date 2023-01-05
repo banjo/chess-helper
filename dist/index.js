@@ -756,7 +756,6 @@ const $4eba5d2f5338bd41$var$addRightClickEvent = ()=>{
         const target = e.target;
         const metaData = (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).getMetaDataForSquare(target);
         if (metaData === null) return;
-        console.log("BOARD: ", metaData.square);
         const moves = (0, $74892fecc95a5cc6$export$f222e06b09a42d9b)[metaData.type];
         const possibleMoves = (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).getPossibleMoveSquares(moves, metaData);
         (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).addMoves(possibleMoves);
@@ -776,9 +775,12 @@ const $882b6d93070905b3$var$main = ()=>{
     };
     (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addLeftClickEvent();
     (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addRightClickEvent();
+    return true;
 };
 window.onload = ()=>{
-    $882b6d93070905b3$var$main();
+    const success = $882b6d93070905b3$var$main();
+    if (success) console.log("Chess game started");
+    else console.error("Failed to initialize application");
 };
 
 

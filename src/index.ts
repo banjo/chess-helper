@@ -9,10 +9,18 @@ const main = () => {
 
     eventService.addLeftClickEvent();
     eventService.addRightClickEvent();
+
+    return true;
 };
 
 window.onload = () => {
-    main();
+    const success = main();
+
+    if (success) {
+        console.log("Chess game started");
+    } else {
+        console.error("Failed to initialize application");
+    }
 };
 
 export {};
