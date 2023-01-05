@@ -19,7 +19,7 @@ A fun side project to add helper lines to the chess board at chess.com.
 
 ## Usage
 
-Generated code is located in `dist/index.js`. The easiest way to activate it is to paste it in the console of the chess page.
+Generated code is located in `dist/index.js`. The easiest way to activate it is to paste it to the console and execute it when the chessboard is open.
 
 Another way is to create a Userscript with Tampermonkey:
 

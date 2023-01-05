@@ -1,3 +1,15 @@
+let $f767aab2036cb9c8$var$playerIsWhiteCache = false;
+const $f767aab2036cb9c8$var$playerIsWhite = ()=>{
+    if ($f767aab2036cb9c8$var$playerIsWhiteCache) return $f767aab2036cb9c8$var$playerIsWhiteCache;
+    const playerIsWhite = document.querySelector("div.piece:nth-child(25)")?.classList[1].startsWith("w");
+    $f767aab2036cb9c8$var$playerIsWhiteCache = playerIsWhite;
+    return playerIsWhite;
+};
+const $f767aab2036cb9c8$export$f60151a8e92c6a2d = {
+    playerIsWhite: $f767aab2036cb9c8$var$playerIsWhite
+};
+
+
 const $5a41ec06dd98719a$var$createElement = ({ type: type , classes: classes  })=>{
     const element = document.createElement(type);
     classes.forEach((c)=>element.classList.add(c));
@@ -224,17 +236,6 @@ const $33352b3a45ac5995$export$db2ab20b8494bcc = {
     k: "king"
 };
 
-
-let $f767aab2036cb9c8$var$playerIsWhiteCache = false;
-const $f767aab2036cb9c8$var$playerIsWhite = ()=>{
-    if ($f767aab2036cb9c8$var$playerIsWhiteCache) return $f767aab2036cb9c8$var$playerIsWhiteCache;
-    const playerIsWhite = document.querySelector("div.piece:nth-child(25)")?.classList[1].startsWith("w");
-    $f767aab2036cb9c8$var$playerIsWhiteCache = playerIsWhite;
-    return playerIsWhite;
-};
-const $f767aab2036cb9c8$export$f60151a8e92c6a2d = {
-    playerIsWhite: $f767aab2036cb9c8$var$playerIsWhite
-};
 
 
 
@@ -816,8 +817,7 @@ const $4eba5d2f5338bd41$export$fd451d4c947f02db = {
 };
 
 
-
-const $882b6d93070905b3$var$main = ()=>{
+const $53ffd25df6034fb9$export$f22da7240b7add18 = ()=>{
     const config = {
         playerIsWhite: (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite()
     };
@@ -825,11 +825,16 @@ const $882b6d93070905b3$var$main = ()=>{
     (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addRightClickEvent();
     return true;
 };
-window.onload = ()=>{
-    const success = $882b6d93070905b3$var$main();
-    if (success) console.log("Chess game started");
-    else console.error("Failed to initialize application");
+
+
+const $882b6d93070905b3$var$IS_TM_SCRIPT = document.readyState === "interactive";
+const $882b6d93070905b3$var$run = ()=>{
+    const success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
+    if (success) console.log("%c Chess helper initialized!", "color: lightgreen");
+    else console.error("%c Failed to initialize application", "color: lightred");
 };
+if ($882b6d93070905b3$var$IS_TM_SCRIPT) window.onload = ()=>$882b6d93070905b3$var$run();
+else $882b6d93070905b3$var$run();
 
 
 //# sourceMappingURL=index.js.map

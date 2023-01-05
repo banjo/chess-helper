@@ -1,26 +1,21 @@
-import { eventService } from "./services/eventService";
-import { configService } from "./services/configService";
-import { Config } from "./types";
+import { main } from "./main";
 
-const main = () => {
-    const config: Config = {
-        playerIsWhite: configService.playerIsWhite(),
-    };
+const IS_TM_SCRIPT = document.readyState === "interactive";
 
-    eventService.addLeftClickEvent();
-    eventService.addRightClickEvent();
-
-    return true;
-};
-
-window.onload = () => {
+const run = () => {
     const success = main();
 
     if (success) {
-        console.log("Chess game started");
+        console.log("%c Chess helper initialized!", "color: lightgreen");
     } else {
-        console.error("Failed to initialize application");
+        console.error("%c Failed to initialize application", "color: lightred");
     }
 };
+
+if (IS_TM_SCRIPT) {
+    window.onload = () => run();
+} else {
+    run();
+}
 
 export {};
