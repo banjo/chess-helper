@@ -15,6 +15,7 @@ A fun side project to add helper lines to the chess board at chess.com.
 * Show how many pieces that covers a possible move (including on opponent pieces).
 * Show if a capture is safe or not.
 * Show all own pieces that is under threat.
+* Show all possible captures that won't sacrifice a piece
 
 ## Usage
 
@@ -69,3 +70,7 @@ Another way is to create a Userscript with Tampermonkey:
 ### Basic functionality
 
 ![](https://i.imgur.com/GrSSjcA.png)
+
+### All possible captures that won't sacrifice a piece
+
+![](https://i.imgur.com/qvaJP4p.png)
