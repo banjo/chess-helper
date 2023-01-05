@@ -19,6 +19,9 @@ const addRightClickEvent = () => {
     const board = domService.getBoard();
 
     board.addEventListener("contextmenu", (e) => {
+        squareService.clearSquare(board);
+        displayMoveService.clearMoves();
+
         const target = e.target;
         const metaData = squareService.getMetaDataForSquare(target);
 

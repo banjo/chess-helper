@@ -12,6 +12,12 @@ const clearSquare = (board: Element) => {
     for (const element of toRemove as any) {
         element?.parentNode?.removeChild(element);
     }
+
+    const highlightsToRemove = board.querySelectorAll(".highlight");
+
+    for (const element of highlightsToRemove as any) {
+        element?.classList?.remove("highlight");
+    }
 };
 
 const getCurrentLocationPieceInfo = (square: number, start: number) => {

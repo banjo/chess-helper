@@ -493,6 +493,8 @@ const $4b670eb746279c44$export$3e4aed8978c9ebda = {
 const $1527f3817f23dd44$var$clearSquare = (board)=>{
     const toRemove = board.querySelectorAll(".doRemove");
     for (const element of toRemove)element?.parentNode?.removeChild(element);
+    const highlightsToRemove = board.querySelectorAll(".highlight");
+    for (const element1 of highlightsToRemove)element1?.classList?.remove("highlight");
 };
 const $1527f3817f23dd44$var$getCurrentLocationPieceInfo = (square, start)=>{
     if (square === start) return null;
@@ -797,6 +799,8 @@ const $4eba5d2f5338bd41$var$addLeftClickEvent = ()=>{
 const $4eba5d2f5338bd41$var$addRightClickEvent = ()=>{
     const board = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
     board.addEventListener("contextmenu", (e)=>{
+        (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).clearSquare(board);
+        (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).clearMoves();
         const target = e.target;
         const metaData = (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).getMetaDataForSquare(target);
         if (metaData === null) return;
