@@ -40,6 +40,10 @@ Another way is to create a Userscript with Tampermonkey:
 
 ## Explanation
 
+### Selected piece (default in chess.com)
+
+![](https://i.imgur.com/t93eGoC.png)
+
 ### Possible move
 
 ![possible move](https://i.imgur.com/j4FzGhq.png)
@@ -60,6 +64,10 @@ Another way is to create a Userscript with Tampermonkey:
 ### Safe capture
 
 ![](https://i.imgur.com/qFm06KS.png)
+
+### Safe capture from any piece
+
+![](https://i.imgur.com/OzdF3U5.png)
 
 ## Examples
 
