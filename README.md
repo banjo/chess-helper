@@ -32,6 +32,7 @@ Another way is to create a Userscript with Tampermonkey:
 // @author       You
 // @match        https://www.chess.com/*
 // @require      https://raw.githubusercontent.com/banjo/chess-helper/main/dist/index.js
+// @run-at       document-end
 // @grant        none
 // ==/UserScript==
 ```
