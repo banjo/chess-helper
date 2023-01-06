@@ -252,7 +252,6 @@ const $33352b3a45ac5995$export$db2ab20b8494bcc = {
 
 
 
-
 const $3f00889156601b74$var$ALTERATION_FIRST = 10;
 const $3f00889156601b74$var$ALTERATION_LAST = 1;
 const $3f00889156601b74$export$b09fb900337259de = (square, metaData, startSquare = null)=>{
@@ -432,18 +431,18 @@ const $4b670eb746279c44$var$prepareNMoves = (move, metaData)=>{
 };
 const $4b670eb746279c44$var$preparePawnMove = (move, metaData)=>{
     let square = (0, $3f00889156601b74$export$b09fb900337259de)(metaData.square, metaData);
-    const isWhitePlayerAndWhitePiece = (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite() && metaData.isWhite;
+    const isWhitePiece = metaData.isWhite;
     const checkIfFirstMove = (square)=>{
-        if (isWhitePlayerAndWhitePiece) return square.getSquare().isOnRow(2);
+        if (isWhitePiece) return square.getSquare().isOnRow(2);
         else return square.getSquare().isOnRow(7);
     };
     const isFirstMove = checkIfFirstMove(square);
-    const handleAxis = (axis, move, metaData, callbacks)=>{
+    const handleAxis = (axis, move, callbacks)=>{
         const value = move[axis];
         if (value !== 0 && Number.isInteger(value)) {
             let x = value;
             const isPositive = x > 0;
-            if (isWhitePlayerAndWhitePiece) for(let i = 0; i < Math.abs(x); i++){
+            if (isWhitePiece) for(let i = 0; i < Math.abs(x); i++){
                 if (isPositive) callbacks.whiteAndPositive(square);
                 else callbacks.whiteAndNegative(square);
                 if (square.isOnPiece()) break;
@@ -455,13 +454,13 @@ const $4b670eb746279c44$var$preparePawnMove = (move, metaData)=>{
             }
         }
     };
-    handleAxis("y", move, metaData, {
+    handleAxis("y", move, {
         blackAndPositive: (square)=>square.moveDown(),
         blackAndNegative: (square)=>square.moveUp(),
         whiteAndPositive: (square)=>square.moveUp(),
         whiteAndNegative: (square)=>square.moveDown()
     });
-    handleAxis("x", move, metaData, {
+    handleAxis("x", move, {
         blackAndPositive: (square)=>square.moveLeft(),
         blackAndNegative: (square)=>square.moveRight(),
         whiteAndPositive: (square)=>square.moveRight(),

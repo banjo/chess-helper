@@ -1,4 +1,4 @@
-import { configService } from './configService';
+import { configService } from "./configService";
 import { domService } from "./domService";
 import { chessMoves } from "./../models/chessMoves";
 import { squareService } from "./squareService";
@@ -21,7 +21,6 @@ const addLeftClickEvent = () => {
 };
 
 const addRightClickEvent = () => {
-
     if (firstRun) {
         configService.init();
         firstRun = false;

@@ -174,11 +174,10 @@ const preparePawnMove = (
     metaData: MetaData
 ): SquareObject | null => {
     let square = Square(metaData.square, metaData);
-    const isWhitePlayerAndWhitePiece =
-        configService.playerIsWhite() && metaData.isWhite;
+    const isWhitePiece = metaData.isWhite;
 
     const checkIfFirstMove = (square: SquareObject) => {
-        if (isWhitePlayerAndWhitePiece) {
+        if (isWhitePiece) {
             return square.getSquare().isOnRow(2);
         } else {
             return square.getSquare().isOnRow(7);
@@ -190,7 +189,6 @@ const preparePawnMove = (
     const handleAxis = (
         axis: "x" | "y",
         move: ChessMove,
-        metaData: MetaData,
         callbacks: {
             blackAndPositive: (square: SquareObject) => void;
             blackAndNegative: (square: SquareObject) => void;
@@ -204,7 +202,7 @@ const preparePawnMove = (
             let x = value as number;
             const isPositive = x > 0;
 
-            if (isWhitePlayerAndWhitePiece) {
+            if (isWhitePiece) {
                 for (let i = 0; i < Math.abs(x); i++) {
                     if (isPositive) {
                         callbacks.whiteAndPositive(square);
@@ -232,14 +230,14 @@ const preparePawnMove = (
         }
     };
 
-    handleAxis("y", move, metaData, {
+    handleAxis("y", move, {
         blackAndPositive: (square) => square.moveDown(),
         blackAndNegative: (square) => square.moveUp(),
         whiteAndPositive: (square) => square.moveUp(),
         whiteAndNegative: (square) => square.moveDown(),
     });
 
-    handleAxis("x", move, metaData, {
+    handleAxis("x", move, {
         blackAndPositive: (square) => square.moveLeft(),
         blackAndNegative: (square) => square.moveRight(),
         whiteAndPositive: (square) => square.moveRight(),
