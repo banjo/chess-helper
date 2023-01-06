@@ -21,7 +21,11 @@ A fun side project to add helper lines to the chess board at chess.com.
 
 Generated code is located in `dist/index.js`. The easiest way to activate it is to paste it to the console and execute it when the chessboard is open.
 
-Another way is to create a Userscript with Tampermonkey:
+Another way is to create a Userscript with Tampermonkey/ViolentMonkey/Greasemonkey. There are 3 ways to you can that:
+
+* Include the script with the `require` statement (see below)
+* Copy the content from `dist/index.js` and paste into own script
+* Import a script from URL and choose: `https://raw.githubusercontent.com/banjo/chess-helper/main/dist/index.js`
 
 ```js
 // ==UserScript==
