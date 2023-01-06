@@ -11,4 +11,8 @@ const playerIsWhite = () => {
     return playerIsWhite;
 };
 
-export const configService = { playerIsWhite };
+const init = () => {
+    playerIsWhite();
+};
+
+export const configService = { playerIsWhite, init };

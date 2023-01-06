@@ -1,11 +1,11 @@
-import { SquareObject } from "./../hooks/square";
-import { moveService } from "./moveService";
-import { Config } from "./../types";
+import { configService } from './configService';
 import { domService } from "./domService";
 import { chessMoves } from "./../models/chessMoves";
 import { squareService } from "./squareService";
 import { displayMoveService } from "./displayMoveService";
 import { displayService } from "./displayService";
+
+let firstRun = true;
 
 const addLeftClickEvent = () => {
     const board = domService.getBoard();
@@ -21,6 +21,12 @@ const addLeftClickEvent = () => {
 };
 
 const addRightClickEvent = () => {
+
+    if (firstRun) {
+        configService.init();
+        firstRun = false;
+    }
+
     const board = domService.getBoard();
 
     if (board === null) return false;

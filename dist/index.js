@@ -5,8 +5,12 @@ const $f767aab2036cb9c8$var$playerIsWhite = ()=>{
     $f767aab2036cb9c8$var$playerIsWhiteCache = playerIsWhite;
     return playerIsWhite;
 };
+const $f767aab2036cb9c8$var$init = ()=>{
+    $f767aab2036cb9c8$var$playerIsWhite();
+};
 const $f767aab2036cb9c8$export$f60151a8e92c6a2d = {
-    playerIsWhite: $f767aab2036cb9c8$var$playerIsWhite
+    playerIsWhite: $f767aab2036cb9c8$var$playerIsWhite,
+    init: $f767aab2036cb9c8$var$init
 };
 
 
@@ -790,6 +794,7 @@ const $03077d7171343e18$export$a5488e3692cee4f1 = {
 };
 
 
+let $4eba5d2f5338bd41$var$firstRun = true;
 const $4eba5d2f5338bd41$var$addLeftClickEvent = ()=>{
     const board = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
     if (board === null) return false;
@@ -800,6 +805,10 @@ const $4eba5d2f5338bd41$var$addLeftClickEvent = ()=>{
     return true;
 };
 const $4eba5d2f5338bd41$var$addRightClickEvent = ()=>{
+    if ($4eba5d2f5338bd41$var$firstRun) {
+        (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).init();
+        $4eba5d2f5338bd41$var$firstRun = false;
+    }
     const board = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
     if (board === null) return false;
     board.addEventListener("contextmenu", (e)=>{
@@ -823,9 +832,6 @@ const $4eba5d2f5338bd41$export$fd451d4c947f02db = {
 
 const $53ffd25df6034fb9$export$f22da7240b7add18 = ()=>{
     try {
-        const config = {
-            playerIsWhite: (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite()
-        };
         const leftClickSuccess = (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addLeftClickEvent();
         const rightClickSuccess = (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addRightClickEvent();
         if (!leftClickSuccess || !rightClickSuccess) return false;

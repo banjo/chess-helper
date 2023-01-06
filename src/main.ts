@@ -4,10 +4,6 @@ import { Config } from "./types";
 
 export const main = () => {
     try {
-        const config: Config = {
-            playerIsWhite: configService.playerIsWhite(),
-        };
-
         const leftClickSuccess = eventService.addLeftClickEvent();
         const rightClickSuccess = eventService.addRightClickEvent();
 
