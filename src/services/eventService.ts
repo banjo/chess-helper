@@ -9,14 +9,21 @@ import { displayService } from "./displayService";
 
 const addLeftClickEvent = () => {
     const board = domService.getBoard();
+
+    if (board === null) return false;
+
     board.addEventListener("click", (e) => {
         squareService.clearSquare(board);
         displayMoveService.clearMoves();
     });
+
+    return true;
 };
 
 const addRightClickEvent = () => {
     const board = domService.getBoard();
+
+    if (board === null) return false;
 
     board.addEventListener("contextmenu", (e) => {
         squareService.clearSquare(board);
@@ -37,6 +44,8 @@ const addRightClickEvent = () => {
         displayMoveService.addMoves(possibleMoves);
         displayService.displayMoves();
     });
+
+    return true;
 };
 
 export const eventService = { addLeftClickEvent, addRightClickEvent };

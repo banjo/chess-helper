@@ -14,7 +14,7 @@ const createElement = ({
 
 const getBoard = (): Element | null => {
     const board = document.querySelector("chess-board");
-    if (board === null) return;
+    if (!board) return null;
 
     return board;
 };

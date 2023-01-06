@@ -3,12 +3,19 @@ import { eventService } from "./services/eventService";
 import { Config } from "./types";
 
 export const main = () => {
-    const config: Config = {
-        playerIsWhite: configService.playerIsWhite(),
-    };
+    try {
+        const config: Config = {
+            playerIsWhite: configService.playerIsWhite(),
+        };
 
-    eventService.addLeftClickEvent();
-    eventService.addRightClickEvent();
+        const leftClickSuccess = eventService.addLeftClickEvent();
+        const rightClickSuccess = eventService.addRightClickEvent();
 
-    return true;
+        if (!leftClickSuccess || !rightClickSuccess) return false;
+
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };

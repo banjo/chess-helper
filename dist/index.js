@@ -17,7 +17,7 @@ const $5a41ec06dd98719a$var$createElement = ({ type: type , classes: classes  })
 };
 const $5a41ec06dd98719a$var$getBoard = ()=>{
     const board = document.querySelector("chess-board");
-    if (board === null) return;
+    if (!board) return null;
     return board;
 };
 const $5a41ec06dd98719a$export$6fddb0d16b9dea63 = {
@@ -792,13 +792,16 @@ const $03077d7171343e18$export$a5488e3692cee4f1 = {
 
 const $4eba5d2f5338bd41$var$addLeftClickEvent = ()=>{
     const board = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
+    if (board === null) return false;
     board.addEventListener("click", (e)=>{
         (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).clearSquare(board);
         (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).clearMoves();
     });
+    return true;
 };
 const $4eba5d2f5338bd41$var$addRightClickEvent = ()=>{
     const board = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
+    if (board === null) return false;
     board.addEventListener("contextmenu", (e)=>{
         (0, $1527f3817f23dd44$export$24c7ddd08b7e5376).clearSquare(board);
         (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).clearMoves();
@@ -810,6 +813,7 @@ const $4eba5d2f5338bd41$var$addRightClickEvent = ()=>{
         (0, $7e2e45e7aa06d1d3$export$fb3532a5c6f43e0c).addMoves(possibleMoves);
         (0, $03077d7171343e18$export$a5488e3692cee4f1).displayMoves();
     });
+    return true;
 };
 const $4eba5d2f5338bd41$export$fd451d4c947f02db = {
     addLeftClickEvent: $4eba5d2f5338bd41$var$addLeftClickEvent,
@@ -818,20 +822,30 @@ const $4eba5d2f5338bd41$export$fd451d4c947f02db = {
 
 
 const $53ffd25df6034fb9$export$f22da7240b7add18 = ()=>{
-    const config = {
-        playerIsWhite: (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite()
-    };
-    (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addLeftClickEvent();
-    (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addRightClickEvent();
-    return true;
+    try {
+        const config = {
+            playerIsWhite: (0, $f767aab2036cb9c8$export$f60151a8e92c6a2d).playerIsWhite()
+        };
+        const leftClickSuccess = (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addLeftClickEvent();
+        const rightClickSuccess = (0, $4eba5d2f5338bd41$export$fd451d4c947f02db).addRightClickEvent();
+        if (!leftClickSuccess || !rightClickSuccess) return false;
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };
 
 
 const $882b6d93070905b3$var$IS_TM_SCRIPT = document.readyState === "interactive";
+const $882b6d93070905b3$var$TIMEOUT_BEFORE_START = 2000;
 const $882b6d93070905b3$var$run = ()=>{
-    const success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
-    if (success) console.log("%c Chess helper initialized!", "color: lightgreen");
-    else console.error("%c Failed to initialize application", "color: lightred");
+    console.log("%c Chess helper starting...", "color: lightblue");
+    setTimeout(()=>{
+        const success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
+        if (success) console.log("%c Chess helper initialized!", "color: lightgreen");
+        else console.error("%c Failed to initialize application", "color: lightred");
+    }, $882b6d93070905b3$var$TIMEOUT_BEFORE_START);
 };
 if ($882b6d93070905b3$var$IS_TM_SCRIPT) window.onload = ()=>$882b6d93070905b3$var$run();
 else $882b6d93070905b3$var$run();
