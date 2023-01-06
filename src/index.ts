@@ -16,7 +16,13 @@ const IS_TM_SCRIPT = document.readyState === "interactive";
 const TIMEOUT_BEFORE_START = 2000;
 
 const init = () => {
-    const success = main();
+    let success = true;
+    try {
+        success = main();
+    } catch (error) {
+        console.error(error);
+        success = false;
+    }
 
     if (success) {
         console.log("%c Chess helper initialized!", "color: lightgreen");

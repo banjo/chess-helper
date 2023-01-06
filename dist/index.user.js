@@ -863,7 +863,13 @@ const $53ffd25df6034fb9$export$f22da7240b7add18 = ()=>{
 const $882b6d93070905b3$var$IS_TM_SCRIPT = document.readyState === "interactive";
 const $882b6d93070905b3$var$TIMEOUT_BEFORE_START = 2000;
 const $882b6d93070905b3$var$init = ()=>{
-    const success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
+    let success = true;
+    try {
+        success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
+    } catch (error) {
+        console.error(error);
+        success = false;
+    }
     if (success) console.log("%c Chess helper initialized!", "color: lightgreen");
     else console.error("%c Failed to initialize application", "color: lightred");
 };
