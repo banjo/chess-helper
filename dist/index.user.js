@@ -512,14 +512,16 @@ const $1527f3817f23dd44$var$clearSquare = (board)=>{
 };
 const $1527f3817f23dd44$var$getCurrentLocationPieceInfo = (square, start)=>{
     if (square === start) return null;
-    const startSquare = Array.from(document.querySelectorAll(`.square-${start}`)).find((e)=>e.classList[0] === "piece");
-    const current = Array.from(document.querySelectorAll(`.square-${square}`)).find((e)=>e.classList[0] === "piece");
-    const isBlackPiecePlaying = startSquare?.classList[1]?.startsWith("b");
     const isOnPiece = (current)=>{
-        return current?.classList[0] === "piece";
+        return current?.className?.includes("piece");
     };
+    const startSquare = Array.from(document.querySelectorAll(`.square-${start}`)).find((e)=>isOnPiece(e));
+    const current = Array.from(document.querySelectorAll(`.square-${square}`)).find((e)=>isOnPiece(e));
+    const metaData = $1527f3817f23dd44$var$getMetaDataForSquare(startSquare);
+    const isBlackPiecePlaying = !metaData.isWhite;
     const isStandingOnWhitePiece = (current)=>{
-        return current?.classList[1].startsWith("w");
+        const metaData = $1527f3817f23dd44$var$getMetaDataForSquare(current);
+        return metaData?.isWhite ?? false;
     };
     const isOnEnemy = isBlackPiecePlaying && isStandingOnWhitePiece(current) || !isBlackPiecePlaying && !isStandingOnWhitePiece(current);
     return {

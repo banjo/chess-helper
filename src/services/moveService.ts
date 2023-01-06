@@ -1,7 +1,5 @@
-import { configService } from "./configService";
-import { Config, MetaData } from "./../types";
+import { MetaData } from "./../types";
 import { ChessMove } from "../models/chessMoves";
-import { squareService } from "./squareService";
 import { Square, SquareObject } from "../hooks/square";
 
 const handleRepeatedMoveUntilBreak = (

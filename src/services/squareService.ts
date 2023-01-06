@@ -23,22 +23,25 @@ const clearSquare = (board: Element) => {
 const getCurrentLocationPieceInfo = (square: number, start: number) => {
     if (square === start) return null;
 
+    const isOnPiece = (current: Element) => {
+        return current?.className?.includes("piece");
+    };
+
     const startSquare = Array.from(
         document.querySelectorAll(`.square-${start}`)
-    ).find((e) => e.classList[0] === "piece");
+    ).find((e) => isOnPiece(e));
 
     const current = Array.from(
         document.querySelectorAll(`.square-${square}`)
-    ).find((e) => e.classList[0] === "piece");
+    ).find((e) => isOnPiece(e));
 
-    const isBlackPiecePlaying = startSquare?.classList[1]?.startsWith("b");
+    const metaData = getMetaDataForSquare(startSquare);
 
-    const isOnPiece = (current: Element) => {
-        return current?.classList[0] === "piece";
-    };
+    const isBlackPiecePlaying = !metaData.isWhite;
 
     const isStandingOnWhitePiece = (current: Element) => {
-        return current?.classList[1].startsWith("w");
+        const metaData = getMetaDataForSquare(current);
+        return metaData?.isWhite ?? false;
     };
 
     const isOnEnemy =
