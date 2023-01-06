@@ -5,3 +5,4 @@ dist/index.js.map
 dist/module.js
 dist/types.d.ts
 dist/types.d.ts.map
+dist/index.user.js.map

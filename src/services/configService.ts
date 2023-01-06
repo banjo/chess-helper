@@ -3,12 +3,12 @@ let playerIsWhiteCache = false;
 const playerIsWhite = () => {
     if (playerIsWhiteCache) return playerIsWhiteCache;
 
-    const playerIsWhite = document
-        .querySelector("div.piece:nth-child(25)")
-        ?.classList[1].startsWith("w");
+    const firstCoordinateIsEight =
+        document.querySelector(".coordinates").childNodes[0].textContent ===
+        "8";
 
-    playerIsWhiteCache = playerIsWhite;
-    return playerIsWhite;
+    playerIsWhiteCache = firstCoordinateIsEight;
+    return firstCoordinateIsEight;
 };
 
 const init = () => {

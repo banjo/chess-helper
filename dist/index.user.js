@@ -11,11 +11,9 @@
 let $f767aab2036cb9c8$var$playerIsWhiteCache = false;
 const $f767aab2036cb9c8$var$playerIsWhite = ()=>{
     if ($f767aab2036cb9c8$var$playerIsWhiteCache) return $f767aab2036cb9c8$var$playerIsWhiteCache;
-    const firstCoordinateIsEight = document.querySelector(".coordinates").childNodes;
-    console.log(firstCoordinateIsEight);
-    const playerIsWhite = document.querySelector("div.piece:nth-child(25)")?.classList[1].startsWith("w");
-    $f767aab2036cb9c8$var$playerIsWhiteCache = playerIsWhite;
-    return playerIsWhite;
+    const firstCoordinateIsEight = document.querySelector(".coordinates").childNodes[0].textContent === "8";
+    $f767aab2036cb9c8$var$playerIsWhiteCache = firstCoordinateIsEight;
+    return firstCoordinateIsEight;
 };
 const $f767aab2036cb9c8$var$init = ()=>{
     $f767aab2036cb9c8$var$playerIsWhite();
