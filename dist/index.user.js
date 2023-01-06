@@ -590,8 +590,13 @@ const $1527f3817f23dd44$var$getMetaDataForSquare = (target)=>{
     if (target instanceof SVGElement) return null;
     if (!target?.className?.includes("piece")) return null;
     const data = target.className.split(" ");
-    const pieceInfo = data[1];
-    const squareInfo = data[2];
+    let pieceInfo = data[1];
+    let squareInfo = data[2];
+    if (pieceInfo.includes("square")) {
+        const temp = pieceInfo;
+        pieceInfo = squareInfo;
+        squareInfo = temp;
+    }
     const square = squareInfo.split("-")[1];
     const pieceAbbreviation = pieceInfo[1];
     return {
