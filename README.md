@@ -64,7 +64,11 @@ Another way is to create a Userscript with Tampermonkey/ViolentMonkey/Greasemonk
 
 ![](https://i.imgur.com/qFP2FjE.png)
 
-### Own piece under threat from opponent piece
+### Own piece under threat from opponent piece with backup
+
+![](https://i.imgur.com/ICUCEJr.png)
+
+### Own piece under threat from opponent piece without backup
 
 ![](https://i.imgur.com/WRFpUrA.png)
 
@@ -72,7 +76,7 @@ Another way is to create a Userscript with Tampermonkey/ViolentMonkey/Greasemonk
 
 ![](https://i.imgur.com/qFm06KS.png)
 
-### Safe capture from any piece
+### Safe capture (included all pieces, not only the selected one)
 
 ![](https://i.imgur.com/OzdF3U5.png)
 
