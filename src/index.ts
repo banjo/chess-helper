@@ -1,3 +1,14 @@
+// ==UserScript==
+// @name         Chess helper
+// @namespace    http://chess.com/
+// @version      0.1
+// @description  Chess helper
+// @author       You
+// @match        https://www.chess.com/*
+// @run-at       document-end
+// @grant        none
+// ==/UserScript==
+
 import { main } from "./main";
 
 const IS_TM_SCRIPT = document.readyState === "interactive";

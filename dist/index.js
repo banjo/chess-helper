@@ -1,6 +1,18 @@
+// ==UserScript==
+// @name         Chess helper
+// @namespace    http://chess.com/
+// @version      0.1
+// @description  Chess helper
+// @author       You
+// @match        https://www.chess.com/*
+// @run-at       document-end
+// @grant        none
+// ==/UserScript==
 let $f767aab2036cb9c8$var$playerIsWhiteCache = false;
 const $f767aab2036cb9c8$var$playerIsWhite = ()=>{
     if ($f767aab2036cb9c8$var$playerIsWhiteCache) return $f767aab2036cb9c8$var$playerIsWhiteCache;
+    const firstCoordinateIsEight = document.querySelector(".coordinates")?.children[0].children[0].textContent === "8";
+    console.log(firstCoordinateIsEight);
     const playerIsWhite = document.querySelector("div.piece:nth-child(25)")?.classList[1].startsWith("w");
     $f767aab2036cb9c8$var$playerIsWhiteCache = playerIsWhite;
     return playerIsWhite;
