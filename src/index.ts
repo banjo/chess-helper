@@ -15,7 +15,7 @@ import { domService } from "./services/domService";
 const IS_TM_SCRIPT = document.readyState === "interactive";
 const TIMEOUT_BEFORE_START = 2000;
 
-const runMain = () => {
+const init = () => {
     const success = main();
 
     if (success) {
@@ -30,7 +30,7 @@ const run = () => {
 
     const boardExists = domService.getBoard();
     if (boardExists) {
-        runMain();
+        init();
         return;
     }
 
@@ -40,7 +40,7 @@ const run = () => {
 
         if (correctBoard) {
             clearInterval(startup);
-            runMain();
+            init();
         }
     }, TIMEOUT_BEFORE_START);
 };
