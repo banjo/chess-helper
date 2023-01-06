@@ -1,6 +1,4 @@
-import { configService } from "./services/configService";
 import { eventService } from "./services/eventService";
-import { Config } from "./types";
 
 export const main = () => {
     try {

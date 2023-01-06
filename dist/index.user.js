@@ -853,17 +853,33 @@ const $53ffd25df6034fb9$export$f22da7240b7add18 = ()=>{
 };
 
 
+
 const $882b6d93070905b3$var$IS_TM_SCRIPT = document.readyState === "interactive";
 const $882b6d93070905b3$var$TIMEOUT_BEFORE_START = 2000;
+const $882b6d93070905b3$var$runMain = ()=>{
+    const success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
+    if (success) console.log("%c Chess helper initialized!", "color: lightgreen");
+    else console.error("%c Failed to initialize application", "color: lightred");
+};
 const $882b6d93070905b3$var$run = ()=>{
     console.log("%c Chess helper starting...", "color: lightblue");
-    setTimeout(()=>{
-        const success = (0, $53ffd25df6034fb9$export$f22da7240b7add18)();
-        if (success) console.log("%c Chess helper initialized!", "color: lightgreen");
-        else console.error("%c Failed to initialize application", "color: lightred");
+    const boardExists = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
+    if (boardExists) {
+        $882b6d93070905b3$var$runMain();
+        return;
+    }
+    console.log("%c Board not found, waiting...", "color: lightblue");
+    const startup = setInterval(()=>{
+        const correctBoard = (0, $5a41ec06dd98719a$export$6fddb0d16b9dea63).getBoard();
+        if (correctBoard) {
+            clearInterval(startup);
+            $882b6d93070905b3$var$runMain();
+        }
     }, $882b6d93070905b3$var$TIMEOUT_BEFORE_START);
 };
-if ($882b6d93070905b3$var$IS_TM_SCRIPT) window.onload = ()=>$882b6d93070905b3$var$run();
+if ($882b6d93070905b3$var$IS_TM_SCRIPT) window.onload = ()=>{
+    setTimeout($882b6d93070905b3$var$run, $882b6d93070905b3$var$TIMEOUT_BEFORE_START);
+};
 else $882b6d93070905b3$var$run();
 
 

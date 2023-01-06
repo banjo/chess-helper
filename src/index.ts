@@ -10,28 +10,45 @@
 // ==/UserScript==
 
 import { main } from "./main";
+import { domService } from "./services/domService";
 
 const IS_TM_SCRIPT = document.readyState === "interactive";
 const TIMEOUT_BEFORE_START = 2000;
 
+const runMain = () => {
+    const success = main();
+
+    if (success) {
+        console.log("%c Chess helper initialized!", "color: lightgreen");
+    } else {
+        console.error("%c Failed to initialize application", "color: lightred");
+    }
+};
+
 const run = () => {
     console.log("%c Chess helper starting...", "color: lightblue");
-    setTimeout(() => {
-        const success = main();
 
-        if (success) {
-            console.log("%c Chess helper initialized!", "color: lightgreen");
-        } else {
-            console.error(
-                "%c Failed to initialize application",
-                "color: lightred"
-            );
+    const boardExists = domService.getBoard();
+    if (boardExists) {
+        runMain();
+        return;
+    }
+
+    console.log("%c Board not found, waiting...", "color: lightblue");
+    const startup = setInterval(() => {
+        const correctBoard = domService.getBoard();
+
+        if (correctBoard) {
+            clearInterval(startup);
+            runMain();
         }
     }, TIMEOUT_BEFORE_START);
 };
 
 if (IS_TM_SCRIPT) {
-    window.onload = () => run();
+    window.onload = () => {
+        setTimeout(run, TIMEOUT_BEFORE_START);
+    };
 } else {
     run();
 }
