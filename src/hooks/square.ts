@@ -11,6 +11,7 @@ export type SquareObject = {
     getLast: () => number;
     getCurrent: () => number;
     getMetaData: () => MetaData;
+    getId: () => string;
     moveRight: () => SquareObject | null;
     moveLeft: () => SquareObject | null;
     moveUp: () => SquareObject | null;
@@ -41,6 +42,7 @@ export const Square: SquareHook = (
     startSquare = startSquare ?? Number(square);
     let current = Number(square);
     let isOnPiece = false;
+    let id = crypto.randomUUID();
     let isOnEnemyPiece = false;
     let isOnEndOfBoard = false;
     let isOutsideBoard = false;
@@ -114,6 +116,7 @@ export const Square: SquareHook = (
         getLast,
         getCurrent: () => current,
         getMetaData: () => metaData,
+        getId: () => id,
         moveRight,
         moveLeft,
         moveUp,

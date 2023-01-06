@@ -127,7 +127,7 @@ const getPossibleMoveSquares = (moves: ChessMove[], metaData: MetaData) => {
     return totalMoves;
 };
 
-const getMetaDataForSquare = (target): MetaData | null => {
+const getMetaDataForSquare = (target: any): MetaData | null => {
     if (target instanceof SVGElement) return null;
 
     if (!target?.className?.includes("piece")) return null;
@@ -150,6 +150,7 @@ const getMetaDataForSquare = (target): MetaData | null => {
         isWhite: pieceInfo.startsWith("b") ? false : true,
         type: chessTypes[pieceAbbreviation],
         square: Number(square),
+        element: target,
     };
 };
 

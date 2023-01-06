@@ -16,10 +16,12 @@ const showPiecesInDanger = ({
     board,
     currentUserPieces,
     possibleEnemyMoves,
+    allPossibleUserMoves,
 }: {
     board: Element;
     currentUserPieces: Element[];
     possibleEnemyMoves: SquareObject[];
+    allPossibleUserMoves: SquareObject[];
 }) => {
     currentUserPieces.forEach((piece) => {
         const squareMetaData = squareService.getMetaDataForSquare(piece);
@@ -27,6 +29,16 @@ const showPiecesInDanger = ({
         const isPieceInDanger = possibleEnemyMoves.some(
             (s) => s.getCurrent() === squareMetaData.square
         );
+
+        const possibleMovesExludedCurrentPiece = allPossibleUserMoves.filter(
+            (s) => {
+                return piece.isEqualNode(s.getMetaData().element) === false;
+            }
+        );
+
+        const pieceHasBackup = possibleMovesExludedCurrentPiece.some((s) => {
+            return s.getCurrent() === squareMetaData.square;
+        });
 
         const element = domService.createElement({
             type: "div",
@@ -37,12 +49,15 @@ const showPiecesInDanger = ({
             ],
         });
 
-        if (isPieceInDanger) {
-            element.style.borderWidth = "8px";
+        if (isPieceInDanger && pieceHasBackup) {
+            element.style.borderColor = BACKGROUND_COLORS.orange;
+        } else if (isPieceInDanger) {
             element.style.borderColor = BACKGROUND_COLORS.red;
-            element.style.opacity = "0.5";
-            board?.appendChild(element);
         }
+
+        element.style.borderWidth = "8px";
+        element.style.opacity = "0.5";
+        board?.appendChild(element);
     });
 };
 
@@ -155,7 +170,12 @@ const displayMoves = () => {
     const currentUserPieces = pieceService.getCurrentUserPieces();
     const allPossibleUserMoves = pieceService.getPossibleUserMoves();
 
-    showPiecesInDanger({ board, currentUserPieces, possibleEnemyMoves });
+    showPiecesInDanger({
+        board,
+        currentUserPieces,
+        possibleEnemyMoves,
+        allPossibleUserMoves,
+    });
     showPossibleMoves({ board, activeMoves, possibleEnemyMoves });
     showPossibleFreeCaptures({
         board,
