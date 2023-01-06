@@ -11,7 +11,7 @@
 let $f767aab2036cb9c8$var$playerIsWhiteCache = false;
 const $f767aab2036cb9c8$var$playerIsWhite = ()=>{
     if ($f767aab2036cb9c8$var$playerIsWhiteCache) return $f767aab2036cb9c8$var$playerIsWhiteCache;
-    const firstCoordinateIsEight = document.querySelector(".coordinates")?.children[0].children[0].textContent === "8";
+    const firstCoordinateIsEight = document.querySelector(".coordinates").childNodes;
     console.log(firstCoordinateIsEight);
     const playerIsWhite = document.querySelector("div.piece:nth-child(25)")?.classList[1].startsWith("w");
     $f767aab2036cb9c8$var$playerIsWhiteCache = playerIsWhite;
@@ -869,4 +869,4 @@ if ($882b6d93070905b3$var$IS_TM_SCRIPT) window.onload = ()=>$882b6d93070905b3$va
 else $882b6d93070905b3$var$run();
 
 
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.user.js.map
