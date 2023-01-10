@@ -55,9 +55,11 @@ const showPiecesInDanger = ({
             element.style.borderColor = BACKGROUND_COLORS.red;
         }
 
-        element.style.borderWidth = "8px";
-        element.style.opacity = "0.5";
-        board?.appendChild(element);
+        if (isPieceInDanger) {
+            element.style.borderWidth = "8px";
+            element.style.opacity = "0.5";
+            board?.appendChild(element);
+        }
     });
 };
 
