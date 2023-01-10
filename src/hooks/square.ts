@@ -1,5 +1,4 @@
 import { MetaData } from "./../types";
-import { ChessType } from "./../models/chessTypes";
 import { squareService } from "./../services/squareService";
 const ALTERATION_FIRST = 10;
 const ALTERATION_LAST = 1;

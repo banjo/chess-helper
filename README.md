@@ -19,13 +19,13 @@ A fun side project to add helper lines to the chess board at chess.com.
 
 ## Usage
 
-Generated code is located in `dist/index.user.js`. The easiest way to activate it is to paste it to the console and execute it when the chessboard is open.
+Generated code is located in `dist/chess-helper.user.js`. The easiest way to activate it is to paste it to the console and execute it when the chessboard is open.
 
 Another way is to create a Userscript with Tampermonkey/ViolentMonkey/Greasemonkey. There are 3 ways to you can that:
 
 * Include the script with the `require` statement (see below)
-* Copy the content from `dist/index.user.js` and paste into own script
-* Import a script from URL and choose: `https://raw.githubusercontent.com/banjo/chess-helper/main/dist/index.user.js`
+* Copy the content from `dist/chess-helper.user.js` and paste into own script
+* Import a script from URL and choose: `https://raw.githubusercontent.com/banjo/chess-helper/main/dist/chess-helper.user.js`
 
 ```js
 // ==UserScript==
@@ -35,9 +35,9 @@ Another way is to create a Userscript with Tampermonkey/ViolentMonkey/Greasemonk
 // @description  Chess helper
 // @author       You
 // @match        https://www.chess.com/*
-// @require      https://raw.githubusercontent.com/banjo/chess-helper/main/dist/index.user.js
-// @downloadURL  https://raw.githubusercontent.com/banjo/chess-helper/main/dist/index.user.js
-// @updateURL    https://raw.githubusercontent.com/banjo/chess-helper/main/dist/index.user.js
+// @require      https://raw.githubusercontent.com/banjo/chess-helper/main/dist/chess-helper.user.js
+// @downloadURL  https://raw.githubusercontent.com/banjo/chess-helper/main/dist/chess-helper.user.js
+// @updateURL    https://raw.githubusercontent.com/banjo/chess-helper/main/dist/chess-helper.user.js
 // @run-at       document-end
 // @grant        none
 // ==/UserScript==

@@ -12,7 +12,7 @@ const addLeftClickEvent = () => {
 
     if (board === null) return false;
 
-    board.addEventListener("click", (e) => {
+    board.addEventListener("click", () => {
         squareService.clearSquare(board);
         displayMoveService.clearMoves();
     });

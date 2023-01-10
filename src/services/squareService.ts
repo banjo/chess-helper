@@ -1,8 +1,6 @@
-import { displayMoveService } from "./displayMoveService";
-import { configService } from "./configService";
 import { chessTypes } from "./../models/chessTypes";
-import { Config, MetaData } from "./../types";
-import { ChessMove, chessMoves } from "./../models/chessMoves";
+import { MetaData } from "./../types";
+import { ChessMove } from "./../models/chessMoves";
 import { moveService } from "./moveService";
 import { SquareObject } from "../hooks/square";
 
