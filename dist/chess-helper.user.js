@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       chess-helper
 // @namespace  chess-helper
-// @version    0.0.0
+// @version    0.0.1
 // @author     monkey
 // @icon       https://images.chesscomfiles.com/uploads/v1/images_users/tiny_mce/SamCopeland/phpmeXx6V.png
 // @match      https://www.chess.com/*
@@ -754,9 +754,11 @@
       } else if (isPieceInDanger) {
         element.style.borderColor = BACKGROUND_COLORS.red;
       }
-      element.style.borderWidth = "8px";
-      element.style.opacity = "0.5";
-      board == null ? void 0 : board.appendChild(element);
+      if (isPieceInDanger) {
+        element.style.borderWidth = "8px";
+        element.style.opacity = "0.5";
+        board == null ? void 0 : board.appendChild(element);
+      }
     });
   };
   const showPossibleMoves = ({
